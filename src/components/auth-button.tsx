@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "./ui/button";
-import { Loader2 } from "lucide-react";
+import AnimatedLoaderIcon from "./animated-loader-icon";
 
 export default function AuthButton() {
   const { data: session, status } = useSession();
@@ -8,7 +8,7 @@ export default function AuthButton() {
   if (status === "loading")
     return (
       <Button disabled>
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        <AnimatedLoaderIcon />
         Loading
       </Button>
     );
