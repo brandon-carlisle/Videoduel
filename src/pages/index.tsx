@@ -1,5 +1,4 @@
 import AnimatedLoaderIcon from "@/components/animated-loader-icon";
-import Navbar from "@/components/navbar";
 import { useSession } from "next-auth/react";
 
 export default function HomePage() {
