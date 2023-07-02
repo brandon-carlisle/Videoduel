@@ -15,11 +15,18 @@ import { Input } from "./ui/input";
 
 const formSchema = z.object({
   name: z.string().min(1),
-  playlistUrl: z.string().url(),
+  playlistUrl: z
+    .string()
+    .url()
+    .startsWith("https://www.youtube.com/playlist?list=")
+    .refine((url) => {
+      const playlistIdRegex = /list=([a-zA-Z0-9_-]+)/;
+      const match = url.match(playlistIdRegex);
+      return match !== null && match.length >= 2;
+    }, "Invalid YouTube playlist ID"),
 });
 
 export default function CreateBracketForm() {
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,10 +35,7 @@ export default function CreateBracketForm() {
     },
   });
 
-  // 2. Define a submit handler.
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   };
 
@@ -46,7 +50,7 @@ export default function CreateBracketForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="eg: best hp movie scenes" {...field} />
               </FormControl>
               <FormDescription>
                 This is the name of your bracket.
@@ -62,10 +66,11 @@ export default function CreateBracketForm() {
             <FormItem>
               <FormLabel>Playlist</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="valid youtube playlist url" {...field} />
               </FormControl>
               <FormDescription>
-                This is the url of the playlist you want to make a bracket for.
+                This is the full url of the public YouTube playlist you want to
+                make a bracket for.
               </FormDescription>
               <FormMessage />
             </FormItem>
