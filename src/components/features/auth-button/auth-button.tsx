@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Button } from "./ui/button";
-import AnimatedLoaderIcon from "./animated-loader-icon";
+import { Button } from "../../ui/button";
+import AnimatedLoaderIcon from "../loader-icon/animated-loader-icon";
 
 export default function AuthButton() {
   const { data: session, status } = useSession();

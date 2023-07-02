@@ -1,4 +1,4 @@
-import AnimatedLoaderIcon from "@/components/animated-loader-icon";
+import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
 
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
