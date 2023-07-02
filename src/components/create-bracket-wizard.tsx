@@ -14,7 +14,9 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 const formSchema = z.object({
-  name: z.string().min(1),
+  name: z
+    .string()
+    .min(1, { message: "Name must contain at least 1 character(s)" }),
   playlistUrl: z
     .string()
     .url()
@@ -41,16 +43,23 @@ export default function CreateBracketForm() {
 
   return (
     <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 lg:w-2/3 xl:w-1/2"
+      >
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Bracket Name</FormLabel>
               <FormControl>
-                <Input placeholder="eg: best hp movie scenes" {...field} />
+                <Input
+                  placeholder="eg: best hp movie scenes"
+                  {...field}
+                  type="text"
+                />
               </FormControl>
               <FormDescription>
                 This is the name of your bracket.
@@ -66,7 +75,11 @@ export default function CreateBracketForm() {
             <FormItem>
               <FormLabel>Playlist</FormLabel>
               <FormControl>
-                <Input placeholder="valid youtube playlist url" {...field} />
+                <Input
+                  placeholder="eg: valid playlist url"
+                  {...field}
+                  type="text"
+                />
               </FormControl>
               <FormDescription>
                 This is the full url of the public YouTube playlist you want to

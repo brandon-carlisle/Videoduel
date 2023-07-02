@@ -16,9 +16,13 @@ export default function AuthButton() {
   return (
     <div>
       {session ? (
-        <Button onClick={() => void signOut()}>Sign out</Button>
+        <Button variant={"outline"} onClick={() => void signOut()}>
+          Sign out
+        </Button>
       ) : (
-        <Button onClick={() => void signIn("discord")}>Sign In</Button>
+        <Button variant={"outline"} onClick={() => void signIn("discord")}>
+          Sign In
+        </Button>
       )}
     </div>
   );

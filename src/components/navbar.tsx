@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AuthButton from "./auth-button";
+import { ThemeToggle } from "./theme-toggle";
 
 export default function Navbar() {
   return (
@@ -7,7 +8,10 @@ export default function Navbar() {
       <Link href={"/"} className="text-5xl font-bold">
         Vote
       </Link>
-      <AuthButton />
+      <div className="flex gap-2">
+        <AuthButton />
+        <ThemeToggle />
+      </div>
     </nav>
   );
 }

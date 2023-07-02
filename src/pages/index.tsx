@@ -1,7 +1,8 @@
 import AnimatedLoaderIcon from "@/components/animated-loader-icon";
-import CreateBracketForm from "@/components/create-bracket";
-import Header from "@/components/header";
+
+import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function HomePage() {
   const { data: session, status } = useSession();
@@ -13,14 +14,9 @@ export default function HomePage() {
       {!session ? (
         <p>Please sign in to create your own bracket</p>
       ) : (
-        <>
-          <Header
-            heading="Create Bracket"
-            description="You can create a bracket here using a valid YouTube playlist link"
-          />
-
-          <CreateBracketForm />
-        </>
+        <Button asChild>
+          <Link href="/create">Create bracket</Link>
+        </Button>
       )}
     </>
   );
