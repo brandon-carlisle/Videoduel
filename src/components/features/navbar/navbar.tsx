@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import AuthButton from "../auth-button/auth-button";
 import { ThemeToggle } from "./theme-toggle";
 
