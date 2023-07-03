@@ -1,27 +1,46 @@
 import { env } from "@/env.mjs";
+import { TRPCError } from "@trpc/server";
+import { google } from "googleapis";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
-// https://youtube.googleapis.com/youtube/v3/playlistItems?key=AIzaSyBecNJeGhK7Tc3odhYyf1Y1Mrg5Gdsf8tw&playlistId=PLl6vsdQa5mrTE90a8u3YWlMwjOi9CF8GF&part=contentDetails&maxResults=50
-
-const createYoutubeQuery = (playlistId: string, maxResults: string) => {
-  const query = `https://youtube.googleapis.com/youtube/v3/playlistItems?key=${env.YOUTUBE_API_SECRET}&playlistId=${playlistId}&part=contentDetails&maxResults=${maxResults}`;
-
-  return query;
-};
+const youtube = google.youtube({
+  version: "v3",
+  auth: env.YOUTUBE_API_SECRET,
+});
 
 export const bracketRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({ name: z.string().min(1), playlistUrl: z.string().url() }))
+    .input(z.object({ name: z.string().min(1), playlistId: z.string() }))
     .mutation(async ({ input }) => {
-      const playlistId = input.playlistUrl.split("list=")[1];
+      const { status, data } = await youtube.playlistItems.list({
+        playlistId: input.playlistId,
+        maxResults: 50,
+        part: ["contentDetails"],
+      });
 
-      const res = await fetch(createYoutubeQuery(playlistId, "50"));
-      const data = await res.json();
+      if (status !== 200)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "youtube data api client error",
+        });
 
-      return {
-        res: data,
-      };
+      const { items } = data;
+
+      if (!items || items?.length <= 1) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "not enough videos in playlist",
+        });
+      }
+
+      const videoUrls = items.map(
+        (video) =>
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          `https://www.youtube.com/watch?v=${video.contentDetails?.videoId}`,
+      );
+
+      console.log(videoUrls);
     }),
 });

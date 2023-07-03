@@ -43,9 +43,15 @@ export default function CreateBracketForm() {
   const bracket = api.bracket.create.useMutation();
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const [url, playlistId] = values.playlistUrl.split("?list=");
+
+    if (!playlistId) return;
+
+    console.log(url, playlistId);
+
     const data = bracket.mutate({
       name: values.name,
-      playlistUrl: values.playlistUrl,
+      playlistId,
     });
 
     console.log(data);
