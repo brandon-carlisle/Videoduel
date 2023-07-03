@@ -2,6 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { api } from "@/utils/api";
+
 import { Button } from "../../ui/button";
 import {
   Form,
@@ -38,8 +40,15 @@ export default function CreateBracketForm() {
     },
   });
 
+  const bracket = api.bracket.create.useMutation();
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    const data = bracket.mutate({
+      name: values.name,
+      playlistUrl: values.playlistUrl,
+    });
+
+    console.log(data);
   };
 
   return (
