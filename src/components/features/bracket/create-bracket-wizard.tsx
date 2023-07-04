@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -15,6 +16,7 @@ import {
   FormMessage,
 } from "../../ui/form";
 import { Input } from "../../ui/input";
+import AnimatedLoaderIcon from "../loader-icon/animated-loader-icon";
 
 const formSchema = z.object({
   name: z
@@ -32,6 +34,8 @@ const formSchema = z.object({
 });
 
 export default function CreateBracketForm() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,7 +44,8 @@ export default function CreateBracketForm() {
     },
   });
 
-  const bracket = api.bracket.create.useMutation();
+  const { mutate, isLoading, isSuccess, data } =
+    api.bracket.create.useMutation();
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const [url, playlistId] = values.playlistUrl.split("?list=");
@@ -49,13 +54,15 @@ export default function CreateBracketForm() {
 
     console.log(url, playlistId);
 
-    const data = bracket.mutate({
+    const newBracket = mutate({
       name: values.name,
       playlistId,
     });
 
-    console.log(data);
+    console.log(newBracket);
   };
+
+  if (isSuccess) void router.push(`/${data.bracket.id}`);
 
   return (
     <Form {...form}>
@@ -105,7 +112,15 @@ export default function CreateBracketForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+
+        {isLoading ? (
+          <Button disabled>
+            <AnimatedLoaderIcon />
+            Loading
+          </Button>
+        ) : (
+          <Button type="submit">Submit</Button>
+        )}
       </form>
     </Form>
   );

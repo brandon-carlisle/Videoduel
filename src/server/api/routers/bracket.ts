@@ -13,7 +13,7 @@ const youtube = google.youtube({
 export const bracketRouter = createTRPCRouter({
   create: protectedProcedure
     .input(z.object({ name: z.string().min(1), playlistId: z.string() }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const { status, data } = await youtube.playlistItems.list({
         playlistId: input.playlistId,
         maxResults: 50,
@@ -41,6 +41,15 @@ export const bracketRouter = createTRPCRouter({
           `https://www.youtube.com/watch?v=${video.contentDetails?.videoId}`,
       );
 
-      console.log(videoUrls);
+      const newBracket = await ctx.prisma.bracket.create({
+        data: {
+          name: input.name,
+          playlistId: input.playlistId,
+          userId: ctx.session.user.id,
+          videoUrls,
+        },
+      });
+
+      return { bracket: newBracket };
     }),
 });

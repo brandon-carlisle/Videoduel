@@ -68,9 +68,10 @@ model User {
 }
 
 model Bracket {
-    id          String @id @default(cuid())
-    name        String
-    playlistUrl String
+    id         String   @id @default(cuid())
+    name       String
+    playlistId String
+    videoUrls  String[]
 
     dateCreated DateTime @default(now())
     updatedAt   DateTime @updatedAt
