@@ -3,7 +3,11 @@ import { TRPCError } from "@trpc/server";
 import { google } from "googleapis";
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 
 const youtube = google.youtube({
   version: "v3",
@@ -51,5 +55,17 @@ export const bracketRouter = createTRPCRouter({
       });
 
       return { bracket: newBracket };
+    }),
+
+  getById: publicProcedure
+    .input(z.object({ bracketId: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const bracket = await ctx.prisma.bracket.findUnique({
+        where: {
+          id: input.bracketId,
+        },
+      });
+
+      return { bracket };
     }),
 });
