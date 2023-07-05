@@ -32,10 +32,11 @@ export const bracketRouter = createTRPCRouter({
 
       const { items } = data;
 
-      if (!items || items?.length <= 1) {
+      if (!items || items?.length <= 1 || items.length > 64) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "not enough videos in playlist",
+          message:
+            "Check number of videos in playlist, either empty or too many",
         });
       }
 
@@ -65,6 +66,12 @@ export const bracketRouter = createTRPCRouter({
           id: input.bracketId,
         },
       });
+
+      if (!bracket)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "No bracket found",
+        });
 
       return { bracket };
     }),

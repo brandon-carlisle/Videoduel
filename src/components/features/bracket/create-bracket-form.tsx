@@ -54,12 +54,10 @@ export default function CreateBracketForm() {
 
     console.log(url, playlistId);
 
-    const newBracket = mutate({
+    mutate({
       name: values.name,
       playlistId,
     });
-
-    console.log(newBracket);
   };
 
   if (isSuccess) void router.push(`/${data.bracket.id}`);
@@ -113,7 +111,7 @@ export default function CreateBracketForm() {
           )}
         />
 
-        {isLoading ? (
+        {isLoading || isSuccess ? (
           <Button disabled>
             <AnimatedLoaderIcon />
             Loading
