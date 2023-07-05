@@ -44,7 +44,7 @@ export default function CreateBracketForm() {
     },
   });
 
-  const { mutate, isLoading, isSuccess, data } =
+  const { mutate, isLoading, isSuccess, data, error } =
     api.bracket.create.useMutation();
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -60,7 +60,7 @@ export default function CreateBracketForm() {
     });
   };
 
-  if (isSuccess) void router.push(`/${data.bracket.id}`);
+  if (isSuccess) void router.push(`/${data.bracketId}`);
 
   return (
     <Form {...form}>
@@ -110,6 +110,8 @@ export default function CreateBracketForm() {
             </FormItem>
           )}
         />
+
+        {error?.message ? <FormMessage>{error.message}</FormMessage> : null}
 
         {isLoading || isSuccess ? (
           <Button disabled>

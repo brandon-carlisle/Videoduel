@@ -12,14 +12,22 @@ import Header from "@/components/features/header/header";
 export default function BracketPage(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
-  const { data } = api.bracket.getById.useQuery({ bracketId: props.bracketId });
+  const { data } = api.bracket.getById.useQuery({
+    bracketId: props.bracketId,
+  });
 
-  console.log(data);
+  if (!data) return <p>No bracket found...</p>;
+
+  const { bracket } = data;
 
   return (
     <Header
-      heading="Bracket"
-      description="Click to play to start this bracket"
+      heading={bracket.name || "Could not find bracket name..."}
+      description={
+        bracket.createdBy.name
+          ? `${bracket.createdBy.name}`
+          : "Could not find username"
+      }
     />
   );
 }

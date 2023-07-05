@@ -36,26 +36,29 @@ export const bracketRouter = createTRPCRouter({
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message:
-            "Check number of videos in playlist, either empty or too many",
+            "Check number of videos in playlist. Must have at least 2. Must be no more than 64.",
         });
       }
 
-      const videoUrls = items.map(
-        (video) =>
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          `https://www.youtube.com/watch?v=${video.contentDetails?.videoId}`,
-      );
-
+      // Create the bracket
       const newBracket = await ctx.prisma.bracket.create({
         data: {
           name: input.name,
           playlistId: input.playlistId,
           userId: ctx.session.user.id,
-          videoUrls,
         },
       });
 
-      return { bracket: newBracket };
+      // Generate the video objects for the bracket
+      const videosForBracket = items.map((video) => ({
+        videoId: video.id as string,
+        bracketId: newBracket.id,
+      }));
+
+      // Add videos to the created bracket
+      await ctx.prisma.video.createMany({ data: videosForBracket });
+
+      return { bracketId: newBracket.id };
     }),
 
   getById: publicProcedure
@@ -65,7 +68,13 @@ export const bracketRouter = createTRPCRouter({
         where: {
           id: input.bracketId,
         },
+        include: {
+          videos: true,
+          createdBy: { select: { image: true, name: true } },
+        },
       });
+
+      console.log(bracket);
 
       if (!bracket)
         throw new TRPCError({
