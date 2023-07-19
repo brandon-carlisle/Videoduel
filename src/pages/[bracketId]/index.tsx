@@ -1,11 +1,13 @@
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { type GetStaticPropsContext, type InferGetStaticPropsType } from "next";
+import { useEffect } from "react";
 import superjson from "superjson";
 
 import { appRouter } from "@/server/api/root";
 import { prisma } from "@/server/db";
 
 import { api } from "@/utils/api";
+import { generateMatchups } from "@/utils/matchup";
 
 import Header from "@/components/features/header/header";
 
@@ -15,6 +17,8 @@ export default function BracketPage(
   const { data } = api.bracket.getById.useQuery({
     bracketId: props.bracketId,
   });
+
+  useEffect(() => generateMatchups(example), []);
 
   if (!data) return <p>No bracket found...</p>;
 
@@ -60,3 +64,22 @@ export async function getStaticProps(
 export const getStaticPaths = () => {
   return { paths: [], fallback: "blocking" };
 };
+
+const example = [
+  { id: 1 },
+  { id: 2 },
+  { id: 3 },
+  { id: 4 },
+  { id: 5 },
+  { id: 6 },
+  { id: 7 },
+  { id: 8 },
+  { id: 9 },
+  { id: 10 },
+  { id: 11 },
+  { id: 12 },
+  { id: 13 },
+  { id: 14 },
+  { id: 15 },
+  { id: 16 },
+];
