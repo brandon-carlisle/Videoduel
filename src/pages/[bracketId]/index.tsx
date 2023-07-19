@@ -1,6 +1,5 @@
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { type GetStaticPropsContext, type InferGetStaticPropsType } from "next";
-import { useEffect } from "react";
 import superjson from "superjson";
 
 import { appRouter } from "@/server/api/root";
@@ -18,7 +17,7 @@ export default function BracketPage(
     bracketId: props.bracketId,
   });
 
-  useEffect(() => generateMatchups(example), []);
+  console.log(generateMatchups(example));
 
   if (!data) return <p>No bracket found...</p>;
 
