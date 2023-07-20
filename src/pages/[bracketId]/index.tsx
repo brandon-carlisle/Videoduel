@@ -22,8 +22,6 @@ export default function BracketPage(
 
   const { bracket } = data;
 
-  console.log(bracket);
-
   return (
     <>
       <Header
