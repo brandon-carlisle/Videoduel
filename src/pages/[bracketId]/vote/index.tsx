@@ -1,8 +1,17 @@
+import { Button } from "@/components/ui/button";
+
 export default function VotePage() {
   return (
-    <div className="flex gap-5">
-      <YoutubePlayer id="F0a-DZGL86s" />
-      <YoutubePlayer id="GIXV7MmjjEU" />
+    <div className="mt-20 flex justify-center gap-5">
+      <div className="flex flex-col items-center justify-center gap-3">
+        <YoutubePlayer id="F0a-DZGL86s" />
+        <Button>Vote</Button>
+      </div>
+
+      <div className="flex flex-col items-center justify-center gap-3">
+        <YoutubePlayer id="GIXV7MmjjEU" />
+        <Button>Vote</Button>
+      </div>
     </div>
   );
 }
