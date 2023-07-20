@@ -21,7 +21,7 @@ export const bracketRouter = createTRPCRouter({
       const { status, data } = await youtube.playlistItems.list({
         playlistId: input.playlistId,
         maxResults: 50,
-        part: ["contentDetails"],
+        part: ["snippet"],
       });
 
       if (status !== 200)
@@ -30,9 +30,9 @@ export const bracketRouter = createTRPCRouter({
           message: "youtube data api client error",
         });
 
-      const { items } = data;
+      const { items: videos } = data;
 
-      if (!items || items?.length <= 1 || items.length > 64) {
+      if (!videos || videos.length < 2 || videos.length > 64) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message:
@@ -46,17 +46,24 @@ export const bracketRouter = createTRPCRouter({
           name: input.name,
           playlistId: input.playlistId,
           userId: ctx.session.user.id,
+          videos: {
+            createMany: {
+              data: videos.map((video) => ({
+                videoId: video.snippet?.resourceId?.videoId as string,
+              })),
+            },
+          },
         },
       });
 
       // Generate the video objects for the bracket
-      const videosForBracket = items.map((video) => ({
-        videoId: video.id as string,
-        bracketId: newBracket.id,
-      }));
+      // const videosForBracket = items.map((video) => ({
+      //   videoId: video.id as string,
+      //   bracketId: newBracket.id,
+      // }));
 
-      // Add videos to the created bracket
-      await ctx.prisma.video.createMany({ data: videosForBracket });
+      // // Add videos to the created bracket
+      // await ctx.prisma.video.createMany({ data: videosForBracket });
 
       return { bracketId: newBracket.id };
     }),
@@ -73,8 +80,6 @@ export const bracketRouter = createTRPCRouter({
           createdBy: { select: { image: true, name: true } },
         },
       });
-
-      console.log(bracket);
 
       if (!bracket)
         throw new TRPCError({

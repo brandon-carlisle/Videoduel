@@ -1,14 +1,15 @@
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { type GetStaticPropsContext, type InferGetStaticPropsType } from "next";
+import Link from "next/link";
 import superjson from "superjson";
 
 import { appRouter } from "@/server/api/root";
 import { prisma } from "@/server/db";
 
 import { api } from "@/utils/api";
-import { generateMatchups } from "@/utils/matchup";
 
 import Header from "@/components/features/header/header";
+import { Button } from "@/components/ui/button";
 
 export default function BracketPage(
   props: InferGetStaticPropsType<typeof getStaticProps>,
@@ -17,21 +18,33 @@ export default function BracketPage(
     bracketId: props.bracketId,
   });
 
-  console.log(generateMatchups(example));
-
   if (!data) return <p>No bracket found...</p>;
 
   const { bracket } = data;
 
+  console.log(bracket);
+
   return (
-    <Header
-      heading={bracket.name || "Could not find bracket name..."}
-      description={
-        bracket.createdBy.name
-          ? `${bracket.createdBy.name}`
-          : "Could not find username"
-      }
-    />
+    <>
+      <Header
+        heading={bracket.name || "Could not find bracket name..."}
+        description={
+          bracket.createdBy.name
+            ? `${bracket.createdBy.name}`
+            : "Could not find username"
+        }
+      />
+
+      <Button asChild className="mb-10">
+        <Link href={`${bracket.id}/vote`}>Vote now</Link>
+      </Button>
+
+      <div>
+        {bracket.videos.map((video) => (
+          <div key={video.id}>{video.videoId}</div>
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -64,21 +77,21 @@ export const getStaticPaths = () => {
   return { paths: [], fallback: "blocking" };
 };
 
-const example = [
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-  { id: 5 },
-  { id: 6 },
-  { id: 7 },
-  { id: 8 },
-  { id: 9 },
-  { id: 10 },
-  { id: 11 },
-  { id: 12 },
-  { id: 13 },
-  { id: 14 },
-  { id: 15 },
-  { id: 16 },
-];
+// const example = [
+//   { id: 1 },
+//   { id: 2 },
+//   { id: 3 },
+//   { id: 4 },
+//   { id: 5 },
+//   { id: 6 },
+//   { id: 7 },
+//   { id: 8 },
+//   { id: 9 },
+//   { id: 10 },
+//   { id: 11 },
+//   { id: 12 },
+//   { id: 13 },
+//   { id: 14 },
+//   { id: 15 },
+//   { id: 16 },
+// ];
