@@ -56,15 +56,6 @@ export const bracketRouter = createTRPCRouter({
         },
       });
 
-      // Generate the video objects for the bracket
-      // const videosForBracket = items.map((video) => ({
-      //   videoId: video.id as string,
-      //   bracketId: newBracket.id,
-      // }));
-
-      // // Add videos to the created bracket
-      // await ctx.prisma.video.createMany({ data: videosForBracket });
-
       return { bracketId: newBracket.id };
     }),
 
