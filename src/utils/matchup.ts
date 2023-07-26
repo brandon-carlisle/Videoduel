@@ -1,3 +1,4 @@
+// matchup.ts
 import { type Video } from "@prisma/client";
 
 function shuffle(input: Video[]) {
@@ -24,7 +25,8 @@ export interface ByeVideo {
 
 export function generateMatchups(input: Video[]): Matchups {
   if (input.length < 2) {
-    throw new Error("Input needs at least 2 items");
+    // If there are less than 2 items, just return an empty array
+    return [];
   }
 
   if (input.length > 64) {

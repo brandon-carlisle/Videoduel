@@ -17,9 +17,12 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 export default function BracketPage(props: Props) {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const { data } = api.bracket.getById.useQuery({
-    bracketId: props.bracketId,
-  });
+  const { data } = api.bracket.getById.useQuery(
+    {
+      bracketId: props.bracketId,
+    },
+    { refetchOnWindowFocus: false },
+  );
 
   if (!data) return <p>No bracket found...</p>;
 
