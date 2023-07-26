@@ -1,6 +1,6 @@
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { type GetStaticPropsContext, type InferGetStaticPropsType } from "next";
-import Link from "next/link";
+import { useState } from "react";
 import superjson from "superjson";
 
 import { appRouter } from "@/server/api/root";
@@ -9,11 +9,14 @@ import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
 
 import Header from "@/components/features/header/header";
+import VoteGame from "@/components/features/vote/vote-game";
 import { Button } from "@/components/ui/button";
 
-export default function BracketPage(
-  props: InferGetStaticPropsType<typeof getStaticProps>,
-) {
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+export default function BracketPage(props: Props) {
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const { data } = api.bracket.getById.useQuery({
     bracketId: props.bracketId,
   });
@@ -33,15 +36,21 @@ export default function BracketPage(
         }
       />
 
-      <Button asChild className="mb-10">
-        <Link href={`${bracket.id}/vote`}>Vote now</Link>
-      </Button>
+      {!isPlaying && (
+        <>
+          <Button className="mb-10" onClick={() => setIsPlaying(!isPlaying)}>
+            Vote now
+          </Button>
 
-      <div>
-        {bracket.videos.map((video) => (
-          <div key={video.id}>{video.videoId}</div>
-        ))}
-      </div>
+          <div>
+            {bracket.videos.map((video) => (
+              <div key={video.id}>{video.videoId}</div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {isPlaying && <VoteGame />}
     </>
   );
 }

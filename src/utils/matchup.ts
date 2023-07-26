@@ -1,6 +1,13 @@
+function shuffle(input: unknown[]) {
+  return input
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+}
+
 type Winner = "a" | "b";
 
-interface Matchup {
+export interface Matchup {
   a: unknown;
   b: unknown;
   winner: null | Winner;
@@ -31,13 +38,6 @@ export function generateMatchups(input: unknown[]): Matchups {
   }
 
   return matchups;
-}
-
-function shuffle(input: unknown[]) {
-  return input
-    .map((value) => ({ value, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value);
 }
 
 export function getWinners(matchups: Matchups): Winner[] {
