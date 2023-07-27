@@ -8,10 +8,14 @@ function shuffle(input: Video[]) {
     .map(({ value }) => value);
 }
 
+function powerOfTwo(x: number) {
+  return Math.log2(x) % 1 === 0;
+}
+
 export interface Matchup {
-  a: Video;
-  b: Video;
-  winner: null | Video;
+  a: Video | null;
+  b: Video | null;
+  winner: Video | null;
 }
 
 type Matchups = Matchup[];
@@ -32,18 +36,28 @@ export function generateMatchups(input: Video[]): Matchups {
     throw new Error("Input can have no more than 64 items");
   }
 
+  const shuffledInput = shuffle(input);
+
+  // If number of videos is not a power of 2
+  // we know byes must be awarded
+
+  if (Math.log2(shuffledInput.length) % 1 === 0) {
+    console.log("Is a power of 2");
+  } else {
+    console.log("Is not a power of 2");
+  }
+
   // If the number of videos is odd, add a "Bye" video to make it even
-  if (input.length % 2 !== 0) {
+  if (shuffledInput.length % 2 !== 0) {
     const byeVideo: ByeVideo = {
       id: "Bye",
       videoId: "Bye",
       wins: null,
       bracketId: null, // Set bracketId to null for the Bye video
     };
-    input.push(byeVideo);
+    shuffledInput.push(byeVideo);
   }
 
-  const shuffledInput = shuffle(input);
   const matchups: Matchups = [];
 
   // Create matchups based on the shuffled input
