@@ -25,8 +25,7 @@ export interface ByeVideo {
 
 export function generateMatchups(input: Video[]): Matchups {
   if (input.length < 2) {
-    // If there are less than 2 items, just return an empty array
-    return [];
+    throw new Error("Input must have at least 2 items");
   }
 
   if (input.length > 64) {
