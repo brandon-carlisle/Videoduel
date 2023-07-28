@@ -8,10 +8,6 @@ function shuffle(input: Video[]) {
     .map(({ value }) => value);
 }
 
-function powerOfTwo(x: number) {
-  return Math.log2(x) % 1 === 0;
-}
-
 export interface Matchup {
   a: Video | null;
   b: Video | null;
