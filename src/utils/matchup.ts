@@ -16,13 +16,6 @@ export interface Matchup {
 
 type Matchups = Matchup[];
 
-export interface ByeVideo {
-  id: string;
-  videoId: string;
-  wins: null;
-  bracketId: string | null;
-}
-
 export function generateMatchups(input: Video[]): Matchups {
   if (input.length < 2) {
     throw new Error("Input must have at least 2 items");
@@ -33,37 +26,30 @@ export function generateMatchups(input: Video[]): Matchups {
   }
 
   const shuffledInput = shuffle(input);
-
-  // If number of videos is not a power of 2
-  // we know byes must be awarded
-
-  if (Math.log2(shuffledInput.length) % 1 === 0) {
-    console.log("Is a power of 2");
-  } else {
-    console.log("Is not a power of 2");
-  }
-
-  // If the number of videos is odd, add a "Bye" video to make it even
-  if (shuffledInput.length % 2 !== 0) {
-    const byeVideo: ByeVideo = {
-      id: "Bye",
-      videoId: "Bye",
-      wins: null,
-      bracketId: null, // Set bracketId to null for the Bye video
-    };
-    shuffledInput.push(byeVideo);
-  }
-
+  // Create an array to store the matchups
   const matchups: Matchups = [];
 
-  // Create matchups based on the shuffled input
-  for (let i = 0; i < shuffledInput.length; i += 2) {
-    // TODO: Fix no null here
+  // Calculate the nearest power of 2 greater than or equal to the number of videos
+  const nextPowerOf2 = Math.pow(2, Math.ceil(Math.log2(shuffledInput.length)));
+
+  for (let i = 0; i < nextPowerOf2 / 2; i++) {
+    // We want to generate matchups in pairs of 2
+    let a: Video | null;
+    let b: Video | null;
+
+    // If there are still videos in the shuffled input, assign them to the matchup
+    if (2 * i < shuffledInput.length) {
+      a = shuffledInput[2 * i] || null;
+      b = shuffledInput[2 * i + 1] || null; // If there's no b, it's a bye
+    } else {
+      // If there are no more videos in the shuffled input, use a bye
+      a = null;
+      b = null;
+    }
+
     const matchup: Matchup = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      a: shuffledInput[i]!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      b: shuffledInput[i + 1]!,
+      a,
+      b,
       winner: null,
     };
     matchups.push(matchup);

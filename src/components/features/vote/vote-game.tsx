@@ -1,19 +1,14 @@
 // vote-game.tsx
-import { type Video } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { type Bracket, type Video } from "@prisma/client";
+import { useCallback, useEffect, useState } from "react";
 
-import {
-  type ByeVideo,
-  type Matchup,
-  generateMatchups,
-  getWinners,
-} from "@/utils/matchup";
+import { type Matchup, generateMatchups, getWinners } from "@/utils/matchup";
 
 import { Button } from "@/components/ui/button";
 
 import YoutubePlayer from "./youtube-player";
 
-interface ExtendedBracket {
+interface ExtendedBracket extends Bracket {
   videos: Video[];
 }
 
@@ -28,53 +23,61 @@ export default function VoteGame({ bracket }: Props) {
   const [currentRound, setCurrentRound] = useState(1);
   const [finalWinner, setFinalWinner] = useState<null | Video>(null);
 
-  useEffect(() => {
-    const generatedMatchups = generateMatchups(bracket.videos);
-    setMatchups(generatedMatchups);
+  const startNewRound = useCallback((newMatchups: Matchup[]) => {
+    setMatchups(newMatchups);
     setCurrentMatchupIndex(0);
     setWinners([]);
-    setCurrentRound(1);
-    setFinalWinner(null);
-  }, [bracket.videos]);
+    setCurrentRound((prevRound) => prevRound + 1);
+    moveToNextMatchup(0, newMatchups); // Skip initial double-byes
+  }, []);
+
+  useEffect(() => {
+    const generatedMatchups = generateMatchups(bracket.videos);
+    startNewRound(generatedMatchups);
+  }, [bracket.videos, startNewRound]);
 
   useEffect(() => {
     if (winners.length > 1) {
       const generatedMatchups = generateMatchups(winners);
-      setMatchups(generatedMatchups);
-      setCurrentMatchupIndex(0);
-      setWinners([]);
-      setCurrentRound((prevRound) => prevRound + 1);
+      startNewRound(generatedMatchups);
     }
-  }, [winners]);
+  }, [startNewRound, winners]);
 
   const currentMatchup = matchups[currentMatchupIndex];
+
+  const moveToNextMatchup = (startIndex: number, matchupList: Matchup[]) => {
+    let nextIndex = startIndex;
+    while (
+      nextIndex < matchupList.length &&
+      matchupList[nextIndex].a === null &&
+      matchupList[nextIndex].b === null
+    ) {
+      nextIndex += 1;
+    }
+    if (nextIndex < matchupList.length) {
+      setCurrentMatchupIndex(nextIndex);
+    } else {
+      const currentWinners = getWinners(matchupList);
+      setWinners(currentWinners);
+      if (currentWinners.length === 1) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        setFinalWinner(currentWinners[0]!);
+      }
+    }
+  };
 
   const handleVote = (winner: Video) => {
     if (currentMatchup) {
       const updatedMatchup = { ...currentMatchup, winner };
-      const updatedMatchups = [...matchups];
-      updatedMatchups[currentMatchupIndex] = updatedMatchup;
+      const updatedMatchups = matchups.map((matchup, index) =>
+        index === currentMatchupIndex ? updatedMatchup : matchup,
+      );
       setMatchups(updatedMatchups);
-
-      if (currentMatchupIndex === matchups.length - 1) {
-        const currentWinners = getWinners(updatedMatchups);
-        setWinners(currentWinners);
-
-        if (currentWinners.length === 1) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          setFinalWinner(currentWinners[0]!);
-        }
-      } else {
-        setCurrentMatchupIndex(currentMatchupIndex + 1);
-      }
+      moveToNextMatchup(currentMatchupIndex + 1, updatedMatchups);
     } else {
       console.log("All matchups completed. No further votes allowed.");
     }
   };
-
-  function isByeVideo(video: Video | ByeVideo): video is ByeVideo {
-    return video.bracketId === null;
-  }
 
   const isFinalRound = matchups.length === 1;
 
@@ -93,11 +96,12 @@ export default function VoteGame({ bracket }: Props) {
         currentMatchup && (
           <>
             <div className="flex flex-col items-center justify-center gap-3">
-              {!isByeVideo(currentMatchup.a) ? (
+              {currentMatchup.a ? (
                 <div className="flex flex-col gap-3">
                   <YoutubePlayer id={currentMatchup.a.videoId} />
                   <p>{currentMatchup.a.videoId}</p>
-                  <Button onClick={() => handleVote(currentMatchup.a)}>
+                  {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+                  <Button onClick={() => handleVote(currentMatchup.a!)}>
                     Vote A
                   </Button>
                 </div>
@@ -107,11 +111,12 @@ export default function VoteGame({ bracket }: Props) {
             </div>
 
             <div className="flex flex-col items-center justify-center gap-3">
-              {!isByeVideo(currentMatchup.b) ? (
+              {currentMatchup.b ? (
                 <div className="flex flex-col gap-3">
                   <YoutubePlayer id={currentMatchup.b.videoId} />
                   <p>{currentMatchup.b.videoId}</p>
-                  <Button onClick={() => handleVote(currentMatchup.b)}>
+                  {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+                  <Button onClick={() => handleVote(currentMatchup.b!)}>
                     Vote B
                   </Button>
                 </div>
