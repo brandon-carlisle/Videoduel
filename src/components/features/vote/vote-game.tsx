@@ -40,6 +40,9 @@ export default function VoteGame({ bracket }: Props) {
     if (winners.length > 1) {
       const generatedMatchups = generateMatchups(winners);
       startNewRound(generatedMatchups);
+    } else if (winners.length === 1) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      setFinalWinner(winners[0]!);
     }
   }, [startNewRound, winners]);
 
@@ -47,18 +50,21 @@ export default function VoteGame({ bracket }: Props) {
 
   const moveToNextMatchup = (startIndex: number, matchupList: Matchup[]) => {
     let nextIndex = startIndex;
+
     while (
       nextIndex < matchupList.length &&
-      matchupList[nextIndex].a === null &&
-      matchupList[nextIndex].b === null
+      matchupList[nextIndex]?.a === null &&
+      matchupList[nextIndex]?.b === null
     ) {
       nextIndex += 1;
     }
+
     if (nextIndex < matchupList.length) {
       setCurrentMatchupIndex(nextIndex);
     } else {
       const currentWinners = getWinners(matchupList);
       setWinners(currentWinners);
+
       if (currentWinners.length === 1) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         setFinalWinner(currentWinners[0]!);
