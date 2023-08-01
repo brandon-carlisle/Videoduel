@@ -105,4 +105,19 @@ export const bracketRouter = createTRPCRouter({
 
       return { bracket };
     }),
+
+  getFeatured: publicProcedure.query(async ({ ctx }) => {
+    const brackets = await ctx.prisma.bracket.findMany({
+      where: { featured: true },
+    });
+
+    if (!brackets || !brackets.length) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "No bracket found with that ID",
+      });
+    }
+
+    return { featured: brackets };
+  }),
 });

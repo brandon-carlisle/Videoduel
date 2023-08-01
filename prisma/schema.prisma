@@ -75,6 +75,8 @@ model Bracket {
     userId      String
     dateCreated DateTime @default(now())
     updatedAt   DateTime @updatedAt
+
+    featured Boolean @default(false)
 }
 
 model Video {
