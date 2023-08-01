@@ -61,6 +61,28 @@ export const bracketRouter = createTRPCRouter({
       return { bracketId: newBracket.id };
     }),
 
+  remove: protectedProcedure
+    .input(z.object({ bracketId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const bracketToDelete = await ctx.prisma.bracket.findUnique({
+        where: { id: input.bracketId },
+      });
+
+      if (!bracketToDelete) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "No bracket found with that ID",
+        });
+      }
+
+      await ctx.prisma.bracket.delete({
+        where: {
+          id: input.bracketId,
+        },
+        include: { videos: true },
+      });
+    }),
+
   getById: publicProcedure
     .input(z.object({ bracketId: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -74,11 +96,12 @@ export const bracketRouter = createTRPCRouter({
         },
       });
 
-      if (!bracket)
+      if (!bracket) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "No bracket found",
+          message: "No bracket found with that ID",
         });
+      }
 
       return { bracket };
     }),

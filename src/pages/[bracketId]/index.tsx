@@ -1,10 +1,7 @@
-import { createServerSideHelpers } from "@trpc/react-query/server";
 import { type GetStaticPropsContext, type InferGetStaticPropsType } from "next";
 import { useState } from "react";
-import superjson from "superjson";
 
-import { appRouter } from "@/server/api/root";
-import { prisma } from "@/server/db";
+import createSSGHelper from "@/server/ssg-helper";
 
 import { api } from "@/utils/api";
 
@@ -48,14 +45,18 @@ export default function BracketPage(props: Props) {
 export async function getStaticProps(
   context: GetStaticPropsContext<{ bracketId: string }>,
 ) {
-  const helpers = createServerSideHelpers({
-    router: appRouter,
-    ctx: {
-      session: null,
-      prisma,
-    },
-    transformer: superjson, // optional - adds superjson serialization
-  });
+  // const helpers = createServerSideHelpers({
+  //   router: appRouter,
+  //   ctx: {
+  //     session: null,
+  //     prisma,
+  //   },
+  //   transformer: superjson, // optional - adds superjson serialization
+  // });
+
+  // Move ssg helper into seperate func
+  const helpers = createSSGHelper();
+
   const bracketId = context.params?.bracketId as string;
 
   // prefetch `bracket.getById`

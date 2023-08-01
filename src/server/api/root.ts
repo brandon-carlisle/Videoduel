@@ -1,6 +1,8 @@
 import { bracketRouter } from "@/server/api/routers/bracket";
 import { createTRPCRouter } from "@/server/api/trpc";
 
+import { userRouter } from "./routers/user";
+
 /**
  * This is the primary router for your server.
  *
@@ -8,6 +10,7 @@ import { createTRPCRouter } from "@/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   bracket: bracketRouter,
+  user: userRouter,
 });
 
 // export type definition of API
