@@ -1,4 +1,3 @@
-// matchup.ts
 import { type Video } from "@prisma/client";
 
 function shuffle(input: Video[]) {

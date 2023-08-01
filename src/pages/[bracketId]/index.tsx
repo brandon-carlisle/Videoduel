@@ -8,7 +8,7 @@ import { prisma } from "@/server/db";
 
 import { api } from "@/utils/api";
 
-import Header from "@/components/features/header/header";
+import BracketPreview from "@/components/features/bracket-preview/bracket-preview";
 import VoteGame from "@/components/features/vote/vote-game";
 import { Button } from "@/components/ui/button";
 
@@ -30,26 +30,13 @@ export default function BracketPage(props: Props) {
 
   return (
     <>
-      <Header
-        heading={bracket.name || "Could not find bracket name..."}
-        description={
-          bracket.createdBy.name
-            ? `${bracket.createdBy.name}`
-            : "Could not find username"
-        }
-      />
-
       {!isPlaying && (
         <>
           <Button className="mb-10" onClick={() => setIsPlaying(!isPlaying)}>
             Vote now
           </Button>
 
-          <div>
-            {bracket.videos.map((video) => (
-              <div key={video.id}>{video.videoId}</div>
-            ))}
-          </div>
+          <BracketPreview bracket={bracket} />
         </>
       )}
 

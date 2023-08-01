@@ -1,4 +1,4 @@
-export default function YoutubePlayer({ id }: { id: string }) {
+export function YoutubePlayer({ id }: { id: string }) {
   return (
     <div>
       <iframe
@@ -9,6 +9,14 @@ export default function YoutubePlayer({ id }: { id: string }) {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       ></iframe>
+    </div>
+  );
+}
+
+export function EmptyPlayer() {
+  return (
+    <div className="flex h-[315px] w-[560px] items-center justify-center">
+      Bye Round
     </div>
   );
 }

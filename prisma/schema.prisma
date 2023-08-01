@@ -67,16 +67,14 @@ model User {
 }
 
 model Bracket {
-    id         String  @id @default(cuid())
-    name       String
-    playlistId String
-    videos     Video[]
-
+    id          String   @id @default(cuid())
+    name        String
+    playlistId  String
+    videos      Video[]
+    createdBy   User     @relation(fields: [userId], references: [id])
+    userId      String
     dateCreated DateTime @default(now())
     updatedAt   DateTime @updatedAt
-
-    createdBy User   @relation(fields: [userId], references: [id])
-    userId    String
 }
 
 model Video {
@@ -85,4 +83,6 @@ model Video {
     wins      Int?
     Bracket   Bracket? @relation(fields: [bracketId], references: [id])
     bracketId String?
+    title     String?
+    thumbnail String?
 }

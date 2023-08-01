@@ -1,4 +1,3 @@
-// vote-game.tsx
 import { type Bracket, type Video } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
 
@@ -6,7 +5,7 @@ import { type Matchup, generateMatchups, getWinners } from "@/utils/matchup";
 
 import { Button } from "@/components/ui/button";
 
-import YoutubePlayer from "./youtube-player";
+import { EmptyPlayer, YoutubePlayer } from "./youtube-player";
 
 interface ExtendedBracket extends Bracket {
   videos: Video[];
@@ -112,7 +111,7 @@ export default function VoteGame({ bracket }: Props) {
                   </Button>
                 </div>
               ) : (
-                <ByeRound />
+                <EmptyPlayer />
               )}
             </div>
 
@@ -127,20 +126,12 @@ export default function VoteGame({ bracket }: Props) {
                   </Button>
                 </div>
               ) : (
-                <ByeRound />
+                <EmptyPlayer />
               )}
             </div>
           </>
         )
       )}
-    </div>
-  );
-}
-
-function ByeRound() {
-  return (
-    <div className="flex h-[315px] w-[560px] items-center justify-center">
-      Bye Round
     </div>
   );
 }
