@@ -7,7 +7,7 @@ export default function CreatePage() {
   return (
     <>
       <Header
-        heading="Create Bracket"
+        title="Create Bracket"
         description="You can create a bracket here using a valid YouTube playlist link"
       />
       <CreateBracketForm />

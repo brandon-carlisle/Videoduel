@@ -35,7 +35,7 @@ export default function UserPage(props: Props) {
       <div>
         {data.user.name && (
           <Header
-            heading={data.user.name}
+            title={data.user.name}
             description="You can view your own brackets here"
           />
         )}

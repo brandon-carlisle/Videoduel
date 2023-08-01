@@ -1,8 +1,10 @@
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 
 import { api } from "@/utils/api";
 
+import AuthButton from "@/components/features/auth-button/auth-button";
+import Header from "@/components/features/header/header";
 import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
 import { Button } from "@/components/ui/button";
 
@@ -15,8 +17,13 @@ export default function HomePage() {
 
   return (
     <>
+      <Header
+        title="Vote on Youtube videos"
+        description="Create a tournament bracket with just a Youtube playlist or play one of our featured brackets"
+      />
+
       {!session ? (
-        <p>Please sign in to create your own bracket</p>
+        <Button onClick={() => void signIn("discord")}>Create bracket</Button>
       ) : (
         <Button asChild>
           <Link href="/create">Create bracket</Link>
