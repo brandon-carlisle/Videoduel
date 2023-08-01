@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import { api } from "@/utils/api";
 
-import BracketPreview from "@/components/features/bracket-preview/bracket-preview";
 import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
 import { Button } from "@/components/ui/button";
 
