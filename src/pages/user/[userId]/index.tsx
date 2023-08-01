@@ -5,6 +5,7 @@ import createSSGHelper from "@/server/ssg-helper";
 import { api } from "@/utils/api";
 
 import Header from "@/components/features/header/header";
+import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
 import { Button } from "@/components/ui/button";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -13,19 +14,21 @@ export default function UserPage(props: Props) {
   const { data } = api.user.getById.useQuery({ userId: props.userId });
   const utils = api.useContext();
 
-  const { mutate } = api.bracket.remove.useMutation({
+  const { mutate, isLoading } = api.bracket.remove.useMutation({
     async onSuccess() {
       await utils.user.getById.invalidate();
     },
   });
 
   const handleDeleteBracket = (id: string) => {
-    if (!window.confirm("Are you sure?")) return;
+    if (!confirm("Are you sure?")) return;
 
     mutate({ bracketId: id });
   };
 
   if (!data) return <p>User not found...</p>;
+
+  if (isLoading) return <AnimatedLoaderIcon />;
 
   return (
     <>
@@ -38,17 +41,23 @@ export default function UserPage(props: Props) {
         )}
       </div>
 
-      {data.user.brackets.map((bracket) => {
-        <div key={bracket.id}>
-          <h2>{bracket.name}</h2>
-          <Button
-            variant="destructive"
-            onClick={() => handleDeleteBracket(bracket.id)}
-          >
-            Delete
-          </Button>
-        </div>;
-      })}
+      <ul className="flex flex-col gap-5">
+        {data.user.brackets.map((bracket) => {
+          console.log(bracket);
+
+          return (
+            <li key={bracket.id} className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold">{bracket.name}</h2>
+              <Button
+                variant="destructive"
+                onClick={() => handleDeleteBracket(bracket.id)}
+              >
+                Delete
+              </Button>
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 }
