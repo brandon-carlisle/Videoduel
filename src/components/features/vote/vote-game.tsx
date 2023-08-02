@@ -90,8 +90,10 @@ export default function VoteGame({ bracket }: Props) {
   console.log("matchups: ", matchups);
 
   return (
-    <div className="mt-20 flex justify-center gap-5">
-      <div>Round: {isFinalRound ? "Final" : currentRound}</div>
+    <div className="mt-20 flex flex-col items-center justify-center gap-6">
+      <div className="text-2xl font-semibold">
+        Round: {isFinalRound ? "Final" : currentRound}
+      </div>
       {finalWinner ? (
         <div className="flex flex-col items-center justify-center gap-3">
           <YoutubePlayer id={finalWinner.videoId} />
@@ -99,7 +101,7 @@ export default function VoteGame({ bracket }: Props) {
         </div>
       ) : (
         currentMatchup && (
-          <>
+          <div className="grid grid-cols-1 place-items-center gap-3 lg:grid-cols-2">
             <div className="flex flex-col items-center justify-center gap-3">
               {currentMatchup.a ? (
                 <div className="flex flex-col gap-3">
@@ -129,7 +131,7 @@ export default function VoteGame({ bracket }: Props) {
                 <EmptyPlayer />
               )}
             </div>
-          </>
+          </div>
         )
       )}
     </div>
