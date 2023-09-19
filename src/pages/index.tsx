@@ -3,10 +3,16 @@ import Link from "next/link";
 
 import { api } from "@/utils/api";
 
-import AuthButton from "@/components/features/auth-button/auth-button";
 import Header from "@/components/features/header/header";
 import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function HomePage() {
   const { data: session, status } = useSession();
@@ -30,14 +36,21 @@ export default function HomePage() {
         </Button>
       )}
 
-      <div className="mt-16">
+      <div className="mt-16 grid grid-cols-3">
         {data &&
           data.featured.map((bracket) => (
             <div key={bracket.id}>
-              <h2 className="mb-3">{bracket.name}</h2>
-              <Button asChild variant="outline">
-                <Link href={`/${bracket.id}`}>Vote now</Link>
-              </Button>
+              <Card>
+                <CardHeader>
+                  <CardTitle>{bracket.name}</CardTitle>
+                  <CardDescription>Card Description</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild variant="outline">
+                    <Link href={`/${bracket.id}`}>Vote now</Link>
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
           ))}
       </div>
