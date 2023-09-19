@@ -8,6 +8,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
+import { validatePlaylistItemCount } from "@/server/helpers/bracket-helpers";
 
 const youtube = google.youtube({
   version: "v3",
@@ -32,11 +33,10 @@ export const bracketRouter = createTRPCRouter({
 
       const { items: videos } = data;
 
-      if (!videos || videos.length < 2 || videos.length > 64) {
+      if (!videos || !validatePlaylistItemCount(videos)) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message:
-            "Check number of videos in playlist. Must have at least 2. Must be no more than 64.",
+          message: "Check number of videos in playlist. Must be 8/16/32/64.",
         });
       }
 

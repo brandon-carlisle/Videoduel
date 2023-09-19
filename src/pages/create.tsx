@@ -8,7 +8,7 @@ export default function CreatePage() {
     <>
       <Header
         title="Create Bracket"
-        description="You can create a bracket here using a valid YouTube playlist link"
+        description="You can create a bracket here using a valid YouTube playlist link. Please make sure your playlist contains either 8/16/32/64 videos."
       />
       <CreateBracketForm />
     </>

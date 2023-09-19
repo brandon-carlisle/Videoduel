@@ -36,24 +36,28 @@ export default function HomePage() {
         </Button>
       )}
 
-      <div className="mt-16 grid grid-cols-3">
-        {data &&
-          data.featured.map((bracket) => (
-            <div key={bracket.id}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>{bracket.name}</CardTitle>
-                  <CardDescription>Card Description</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button asChild variant="outline">
-                    <Link href={`/${bracket.id}`}>Vote now</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          ))}
-      </div>
+      <section className="mt-16">
+        <h2 className="mb-8 text-xl font-semibold">Featured brackets</h2>
+
+        <div className="grid grid-cols-3">
+          {data &&
+            data.featured.map((bracket) => (
+              <div key={bracket.id}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{bracket.name}</CardTitle>
+                    <CardDescription>{bracket.userId}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button asChild variant="outline">
+                      <Link href={`/${bracket.id}`}>Vote now</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+        </div>
+      </section>
     </>
   );
 }

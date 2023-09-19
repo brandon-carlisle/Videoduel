@@ -1,6 +1,6 @@
 import { type GetStaticPropsContext, type InferGetStaticPropsType } from "next";
 
-import createSSGHelper from "@/server/ssg-helper";
+import createSSGHelper from "@/server/helpers/ssg-helper";
 
 import { api } from "@/utils/api";
 
