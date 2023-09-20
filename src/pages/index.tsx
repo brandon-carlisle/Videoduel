@@ -1,7 +1,7 @@
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 
-import FeaturedBrackets from "@/components/features/featured-brackets/featured-brackets";
+import FeaturedBrackets from "@/components/features/bracket-featured-grid/featured-brackets";
 import Header from "@/components/features/header/header";
 import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
 import { Button } from "@/components/ui/button";

@@ -1,6 +1,8 @@
 import { type Bracket, type Video } from "@prisma/client";
 import Image from "next/image";
 
+import { Button } from "@/components/ui/button";
+
 import Header from "../header/header";
 
 interface ExtendedBracket extends Bracket {
@@ -13,21 +15,31 @@ interface ExtendedBracket extends Bracket {
 
 interface Props {
   bracket: ExtendedBracket;
+  onPlayingChange: React.Dispatch<React.SetStateAction<boolean>>;
+  isPlaying: boolean;
 }
 
-export default function BracketPreview({ bracket }: Props) {
+export default function BracketPreview({
+  bracket,
+  onPlayingChange,
+  isPlaying,
+}: Props) {
   return (
     <>
       <Header
-        heading={bracket.name || "Could not find bracket name..."}
+        title={bracket.name || "Could not find bracket name..."}
         description={
           bracket.createdBy.name
-            ? `${bracket.createdBy.name}`
+            ? `by ${bracket.createdBy.name}`
             : "Could not find username"
         }
       />
 
       <div>
+        <Button className="mb-10" onClick={() => onPlayingChange(!isPlaying)}>
+          Vote now
+        </Button>
+
         <ul>
           {bracket.videos.map((video) => {
             return (

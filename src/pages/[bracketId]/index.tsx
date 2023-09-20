@@ -6,8 +6,7 @@ import createSSGHelper from "@/server/helpers/ssg-helper";
 import { api } from "@/utils/api";
 
 import BracketPreview from "@/components/features/bracket-preview/bracket-preview";
-import VoteGame from "@/components/features/vote/vote-game";
-import { Button } from "@/components/ui/button";
+import VoteGame from "@/components/features/game/vote-game";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -29,11 +28,11 @@ export default function BracketPage(props: Props) {
     <>
       {!isPlaying && (
         <>
-          <Button className="mb-10" onClick={() => setIsPlaying(!isPlaying)}>
-            Vote now
-          </Button>
-
-          <BracketPreview bracket={bracket} />
+          <BracketPreview
+            bracket={bracket}
+            onPlayingChange={setIsPlaying}
+            isPlaying={isPlaying}
+          />
         </>
       )}
 

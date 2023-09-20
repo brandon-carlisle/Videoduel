@@ -20,6 +20,8 @@ export default function FeaturedBrackets() {
     return <AnimatedLoaderIcon />;
   }
 
+  if (!data) return null;
+
   return (
     <section>
       <h2 className="mb-8 text-xl font-semibold">Featured brackets</h2>
