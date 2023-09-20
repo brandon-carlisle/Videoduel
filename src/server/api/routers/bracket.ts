@@ -114,7 +114,7 @@ export const bracketRouter = createTRPCRouter({
     if (!brackets || !brackets.length) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "No bracket found with that ID",
+        message: "No brackets are featured",
       });
     }
 

@@ -1,23 +1,13 @@
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 
-import { api } from "@/utils/api";
-
+import FeaturedBrackets from "@/components/features/featured-brackets/featured-brackets";
 import Header from "@/components/features/header/header";
 import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 export default function HomePage() {
   const { data: session, status } = useSession();
-
-  const { data } = api.bracket.getFeatured.useQuery();
 
   if (status === "loading") return <AnimatedLoaderIcon />;
 
@@ -28,36 +18,17 @@ export default function HomePage() {
         description="Create a tournament bracket with just a Youtube playlist or play one of our featured brackets"
       />
 
-      {!session ? (
-        <Button onClick={() => void signIn("discord")}>Create bracket</Button>
-      ) : (
-        <Button asChild>
-          <Link href="/create">Create bracket</Link>
-        </Button>
-      )}
+      <div className="mb-16">
+        {!session ? (
+          <Button onClick={() => void signIn("discord")}>Create bracket</Button>
+        ) : (
+          <Button asChild>
+            <Link href="/create">Create bracket</Link>
+          </Button>
+        )}
+      </div>
 
-      <section className="mt-16">
-        <h2 className="mb-8 text-xl font-semibold">Featured brackets</h2>
-
-        <div className="grid grid-cols-3">
-          {data &&
-            data.featured.map((bracket) => (
-              <div key={bracket.id}>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{bracket.name}</CardTitle>
-                    <CardDescription>{bracket.userId}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button asChild variant="outline">
-                      <Link href={`/${bracket.id}`}>Vote now</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
-        </div>
-      </section>
+      <FeaturedBrackets />
     </>
   );
 }
