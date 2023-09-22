@@ -1,16 +1,12 @@
 import { type Video } from "@prisma/client";
 
+import { type Matchup } from "./types";
+
 function shuffle(input: Video[]) {
   return input
     .map((value) => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
-}
-
-export interface Matchup {
-  a: Video | null;
-  b: Video | null;
-  winner: Video | null;
 }
 
 type Matchups = Matchup[];

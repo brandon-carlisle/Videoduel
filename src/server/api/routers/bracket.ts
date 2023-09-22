@@ -109,6 +109,7 @@ export const bracketRouter = createTRPCRouter({
   getFeatured: publicProcedure.query(async ({ ctx }) => {
     const brackets = await ctx.prisma.bracket.findMany({
       where: { featured: true },
+      include: { createdBy: { select: { name: true } } },
     });
 
     if (!brackets || !brackets.length) {

@@ -28,7 +28,10 @@ export default function HomePage() {
         )}
       </div>
 
-      <FeaturedBrackets />
+      <section>
+        <h2 className="mb-8 text-xl font-semibold">Featured brackets</h2>
+        <FeaturedBrackets />
+      </section>
     </>
   );
 }
