@@ -4,14 +4,17 @@ import createSSGHelper from "@/server/helpers/ssg-helper";
 
 import { api } from "@/utils/api";
 
-import BracketPreview from "@/components/features/bracket-preview/bracket-preview";
+import VoteGame from "@/components/features/game/vote-game";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export default function BracketPage(props: Props) {
-  const { data } = api.bracket.getById.useQuery({
-    bracketId: props.bracketId,
-  });
+  const { data } = api.bracket.getById.useQuery(
+    {
+      bracketId: props.bracketId,
+    },
+    { refetchOnWindowFocus: false },
+  );
 
   if (!data) return <p>No bracket found...</p>;
 
@@ -19,7 +22,7 @@ export default function BracketPage(props: Props) {
 
   return (
     <>
-      <BracketPreview bracket={bracket} />
+      <VoteGame bracket={bracket} />
     </>
   );
 }
