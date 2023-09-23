@@ -1,5 +1,6 @@
 import { type Video } from "@prisma/client";
 
+import { validatePlaylistItemCount } from "../validate-playlist-item-count";
 import { type Matchup } from "./types";
 
 function shuffle(input: Video[]) {
@@ -12,35 +13,27 @@ function shuffle(input: Video[]) {
 type Matchups = Matchup[];
 
 export function generateMatchups(input: Video[]): Matchups {
-  if (input.length < 2) {
-    throw new Error("Input must have at least 2 items");
-  }
-
-  if (input.length > 64) {
-    throw new Error("Input can have no more than 64 items");
+  // Check if we have correct number of videos
+  // Input will only be valid if we have
+  // 8 / 16 / 32 / 64 videos
+  if (!validatePlaylistItemCount(input)) {
+    throw new Error("Invalid playlist count");
   }
 
   const shuffledInput = shuffle(input);
+
   // Create an array to store the matchups
   const matchups: Matchups = [];
 
-  // Calculate the nearest power of 2 greater than or equal to the number of videos
-  const nextPowerOf2 = Math.pow(2, Math.ceil(Math.log2(shuffledInput.length)));
+  const numberOfMatchups = shuffledInput.length / 2;
 
-  for (let i = 0; i < nextPowerOf2 / 2; i++) {
+  for (let i = 0; i < numberOfMatchups; i++) {
     // We want to generate matchups in pairs of 2
-    let a: Video | null;
-    let b: Video | null;
+    // let a: Video;
+    // let b: Video;
 
-    // If there are still videos in the shuffled input, assign them to the matchup
-    if (2 * i < shuffledInput.length) {
-      a = shuffledInput[2 * i] || null;
-      b = shuffledInput[2 * i + 1] || null; // If there's no b, it's a bye
-    } else {
-      // If there are no more videos in the shuffled input, use a bye
-      a = null;
-      b = null;
-    }
+    const a = shuffledInput[2 * i];
+    const b = shuffledInput[2 * i + 1];
 
     const matchup: Matchup = {
       a,

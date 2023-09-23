@@ -8,7 +8,8 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
-import { validatePlaylistItemCount } from "@/server/helpers/bracket-helpers";
+
+import { validatePlaylistItemCount } from "@/utils/validate-playlist-item-count";
 
 const youtube = google.youtube({
   version: "v3",
