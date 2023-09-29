@@ -41,45 +41,37 @@ export default function VoteGame({ bracket }: Props) {
   const handleVote = (winner: Video) => {
     if (!currentMatchup) return;
 
-    console.log("winner: ", winner);
-
     const updatedMatchup = { ...currentMatchup, winner };
-
-    console.log(updatedMatchup);
-
     const updatedMatchups = matchups.map((matchup, index) =>
       index === currentMatchupIndex ? updatedMatchup : matchup,
     );
-
-    console.log(updatedMatchups);
-
     setMatchups(updatedMatchups);
-    // moveToNextMatchup(currentMatchupIndex + 1, updatedMatchups);
+    moveToNextMatchup(currentMatchupIndex + 1, updatedMatchups);
   };
 
-  // const moveToNextMatchup = (startIndex: number, matchupList: Matchup[]) => {
-  //   let nextIndex = startIndex;
+  const moveToNextMatchup = (startIndex: number, matchupList: Matchup[]) => {
+    let nextIndex = startIndex;
 
-  //   while (
-  //     nextIndex < matchupList.length &&
-  //     matchupList[nextIndex]?.a === null &&
-  //     matchupList[nextIndex]?.b === null
-  //   ) {
-  //     nextIndex += 1;
-  //   }
+    while (
+      nextIndex < matchupList.length &&
+      matchupList[nextIndex]?.a === null &&
+      matchupList[nextIndex]?.b === null
+    ) {
+      nextIndex += 1;
+    }
 
-  //   if (nextIndex < matchupList.length) {
-  //     setCurrentMatchupIndex(nextIndex);
-  //   } else {
-  //     const currentWinners = getWinners(matchupList);
-  //     setWinners(currentWinners);
+    if (nextIndex < matchupList.length) {
+      setCurrentMatchupIndex(nextIndex);
+    } else {
+      const currentWinners = getWinners(matchupList);
+      setWinners(currentWinners);
 
-  //     if (currentWinners.length === 1) {
-  //       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  //       setFinalWinner(currentWinners[0]!);
-  //     }
-  //   }
-  // };
+      if (currentWinners.length === 1) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        setFinalWinner(currentWinners[0]!);
+      }
+    }
+  };
 
   return (
     <div className="mt-20 flex flex-col items-center justify-center gap-6">
