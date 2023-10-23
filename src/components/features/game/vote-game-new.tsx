@@ -20,7 +20,7 @@ export default function VoteGameNew({ bracket }: Props) {
   const [matchups, setMatchups] = useState<Matchup[]>([]);
   const [currentMatchupIndex, setCurrentMatchupIndex] = useState(0);
 
-  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState<Video>();
   const [isZooming, setIsZooming] = useState(false);
 
   useEffect(() => {
@@ -29,16 +29,26 @@ export default function VoteGameNew({ bracket }: Props) {
     setCurrentMatchupIndex(0); // Initialize to the first matchup
   }, [bracket.videos]);
 
-  const handleVote = (video) => {
+  const handleVote = (video: Video) => {
     setSelectedVideo(video);
     setIsZooming(true);
 
-    // After a delay, move on to the next matchup
+    // Delay to allow time for the zoom-in animation
     setTimeout(() => {
-      // Logic to move to the next matchup
-      setIsZooming(false);
-      // Call a function to select the next matchup
-    }, 2000); // Adjust the delay as needed
+      setTimeout(() => {
+        handleNextMatchup();
+        setIsZooming(false);
+      }, 3000);
+    }, 2000);
+  };
+
+  const handleNextMatchup = () => {
+    if (currentMatchupIndex < matchups.length - 1) {
+      setCurrentMatchupIndex((prevIndex) => prevIndex + 1);
+    } else {
+      // Handle end of matchups
+      console.log("All matchups voted on");
+    }
   };
 
   // Get the current matchup from the list
@@ -58,7 +68,9 @@ export default function VoteGameNew({ bracket }: Props) {
                 <YoutubePlayer id={currentMatchup.a.videoId} />
                 <p>{currentMatchup.a.videoId}</p>
 
-                <Button onClick={() => handleVote(currentMatchup.a)}>
+                {/* We know this matchup exists because of the check above */}
+                {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+                <Button onClick={() => handleVote(currentMatchup.a!)}>
                   Vote A
                 </Button>
               </div>
@@ -79,7 +91,9 @@ export default function VoteGameNew({ bracket }: Props) {
                 <YoutubePlayer id={currentMatchup.b.videoId} />
                 <p>{currentMatchup.b.videoId}</p>
 
-                <Button onClick={() => handleVote(currentMatchup.b)}>
+                {/* We know this matchup exists because of the check above */}
+                {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+                <Button onClick={() => handleVote(currentMatchup.b!)}>
                   Vote B
                 </Button>
               </div>
