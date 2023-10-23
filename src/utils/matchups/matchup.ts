@@ -35,12 +35,18 @@ export function generateMatchups(input: Video[]): Matchups {
     const a = shuffledInput[2 * i];
     const b = shuffledInput[2 * i + 1];
 
-    const matchup: Matchup = {
-      a,
-      b,
-      winner: null,
-    };
-    matchups.push(matchup);
+    let matchup;
+
+    if (a && b) {
+      matchup = {
+        a,
+        b,
+        winner: null,
+      };
+      matchups.push(matchup);
+    } else {
+      throw new Error("Chech matchups.ts");
+    }
   }
 
   return matchups;

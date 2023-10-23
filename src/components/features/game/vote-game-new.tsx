@@ -68,9 +68,7 @@ export default function VoteGameNew({ bracket }: Props) {
                 <YoutubePlayer id={currentMatchup.a.videoId} />
                 <p>{currentMatchup.a.videoId}</p>
 
-                {/* We know this matchup exists because of the check above */}
-                {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-                <Button onClick={() => handleVote(currentMatchup.a!)}>
+                <Button onClick={() => handleVote(currentMatchup.a)}>
                   Vote A
                 </Button>
               </div>
@@ -91,9 +89,7 @@ export default function VoteGameNew({ bracket }: Props) {
                 <YoutubePlayer id={currentMatchup.b.videoId} />
                 <p>{currentMatchup.b.videoId}</p>
 
-                {/* We know this matchup exists because of the check above */}
-                {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-                <Button onClick={() => handleVote(currentMatchup.b!)}>
+                <Button onClick={() => handleVote(currentMatchup.b)}>
                   Vote B
                 </Button>
               </div>
