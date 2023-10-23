@@ -20,7 +20,7 @@ export default function FeaturedBrackets() {
     return <AnimatedLoaderIcon />;
   }
 
-  if (!data) return null;
+  if (!data) return <p>Nothing found... 😭</p>;
 
   return (
     <div className="grid grid-cols-3">

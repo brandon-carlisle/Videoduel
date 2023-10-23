@@ -76,3 +76,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.zoom-in {
+  transform: scale(1.2); /* Adjust the scaling factor as needed */
+  transition: transform 1s; /* Adjust the animation duration as needed */
+}
