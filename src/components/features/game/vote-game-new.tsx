@@ -1,6 +1,9 @@
 import { type Bracket, type Video } from "@prisma/client";
 import { useEffect, useState } from "react";
 
+import { generateMatchups } from "@/utils/matchups/matchup";
+import { type Matchup } from "@/utils/matchups/types";
+
 import { Button } from "@/components/ui/button";
 
 import { EmptyPlayer, YoutubePlayer } from "./youtube-player";
@@ -14,18 +17,16 @@ interface Props {
 }
 
 export default function VoteGameNew({ bracket }: Props) {
-  const [currentMatchup, setCurrentMatchup] = useState({
-    a: null, // Initial value, update this with videos
-    b: null, // Initial value, update this with videos
-  });
+  const [matchups, setMatchups] = useState<Matchup[]>([]);
+  const [currentMatchupIndex, setCurrentMatchupIndex] = useState(0);
+
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isZooming, setIsZooming] = useState(false);
 
   useEffect(() => {
-    setCurrentMatchup({
-      a: bracket.videos[0],
-      b: bracket.videos[1],
-    });
+    const newMatchups = generateMatchups(bracket.videos);
+    setMatchups(newMatchups);
+    setCurrentMatchupIndex(0); // Initialize to the first matchup
   }, [bracket.videos]);
 
   const handleVote = (video) => {
@@ -37,8 +38,11 @@ export default function VoteGameNew({ bracket }: Props) {
       // Logic to move to the next matchup
       setIsZooming(false);
       // Call a function to select the next matchup
-    }, 1000); // Adjust the delay as needed
+    }, 2000); // Adjust the delay as needed
   };
+
+  // Get the current matchup from the list
+  const currentMatchup = matchups[currentMatchupIndex] || null;
 
   return (
     <div className="mt-20 flex flex-col items-center justify-center gap-6">
@@ -46,7 +50,9 @@ export default function VoteGameNew({ bracket }: Props) {
         <div className="flex flex-col items-center justify-center gap-3">
           {currentMatchup?.a ? (
             <div
-              className={selectedVideo === currentMatchup.a ? "zoom-in" : ""}
+              className={
+                selectedVideo === currentMatchup.a && isZooming ? "zoom-in" : ""
+              }
             >
               <div className="flex flex-col gap-3">
                 <YoutubePlayer id={currentMatchup.a.videoId} />
@@ -65,7 +71,9 @@ export default function VoteGameNew({ bracket }: Props) {
         <div className="flex flex-col items-center justify-center gap-3">
           {currentMatchup?.b ? (
             <div
-              className={selectedVideo === currentMatchup.b ? "zoom-in" : ""}
+              className={
+                selectedVideo === currentMatchup.b && isZooming ? "zoom-in" : ""
+              }
             >
               <div className="flex flex-col gap-3">
                 <YoutubePlayer id={currentMatchup.b.videoId} />
