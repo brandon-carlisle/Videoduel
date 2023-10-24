@@ -33,6 +33,19 @@ export default function VoteGameNew({ bracket }: Props) {
     setSelectedVideo(video);
     setIsZooming(true);
 
+    // Update matchups to reflect winners
+    setMatchups((prevState) => {
+      const updatedMatchups = [...prevState];
+
+      updatedMatchups[currentMatchupIndex] = {
+        a: updatedMatchups[currentMatchupIndex]?.a,
+        b: updatedMatchups[currentMatchupIndex]?.b,
+        winner: video,
+      };
+
+      return updatedMatchups;
+    });
+
     // Delay to allow time for the zoom-in animation
     setTimeout(() => {
       setTimeout(() => {
@@ -53,6 +66,8 @@ export default function VoteGameNew({ bracket }: Props) {
 
   // Get the current matchup from the list
   const currentMatchup = matchups[currentMatchupIndex] || null;
+
+  console.log(matchups);
 
   return (
     <div className="mt-20 flex flex-col items-center justify-center gap-6">
