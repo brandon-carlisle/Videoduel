@@ -1,7 +1,7 @@
 import { type Bracket, type Video } from "@prisma/client";
 import { useEffect, useState } from "react";
 
-import { generateMatchups } from "@/utils/matchups/matchup";
+import { generateMatchups, getWinners } from "@/utils/matchups/matchup";
 import { type Matchup } from "@/utils/matchups/types";
 
 import { Button } from "@/components/ui/button";
@@ -38,7 +38,9 @@ export default function VoteGameNew({ bracket }: Props) {
       const updatedMatchups = [...prevState];
 
       updatedMatchups[currentMatchupIndex] = {
+        // @ts-expect-error TODO
         a: updatedMatchups[currentMatchupIndex]?.a,
+        // @ts-expect-error TODO
         b: updatedMatchups[currentMatchupIndex]?.b,
         winner: video,
       };
@@ -51,7 +53,7 @@ export default function VoteGameNew({ bracket }: Props) {
       setTimeout(() => {
         handleNextMatchup();
         setIsZooming(false);
-      }, 3000);
+      }, 1000);
     }, 2000);
   };
 
@@ -63,6 +65,18 @@ export default function VoteGameNew({ bracket }: Props) {
       console.log("All matchups voted on");
     }
   };
+
+  const handleNextRound = () => {
+    const roundWinners = getWinners(matchups);
+    const nextRoundMatchups = generateMatchups(roundWinners);
+    setMatchups(nextRoundMatchups);
+    setCurrentMatchupIndex(0);
+    setIsZooming(false);
+  };
+
+  if (matchups[matchups.length - 1]?.winner) {
+    handleNextRound();
+  }
 
   // Get the current matchup from the list
   const currentMatchup = matchups[currentMatchupIndex] || null;
@@ -83,7 +97,10 @@ export default function VoteGameNew({ bracket }: Props) {
                 <YoutubePlayer id={currentMatchup.a.videoId} />
                 <p>{currentMatchup.a.videoId}</p>
 
-                <Button onClick={() => handleVote(currentMatchup.a)}>
+                <Button
+                  onClick={() => handleVote(currentMatchup.a)}
+                  disabled={isZooming}
+                >
                   Vote A
                 </Button>
               </div>
@@ -104,7 +121,10 @@ export default function VoteGameNew({ bracket }: Props) {
                 <YoutubePlayer id={currentMatchup.b.videoId} />
                 <p>{currentMatchup.b.videoId}</p>
 
-                <Button onClick={() => handleVote(currentMatchup.b)}>
+                <Button
+                  onClick={() => handleVote(currentMatchup.b)}
+                  disabled={isZooming}
+                >
                   Vote B
                 </Button>
               </div>

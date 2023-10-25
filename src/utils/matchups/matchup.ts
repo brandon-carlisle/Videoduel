@@ -15,7 +15,7 @@ type Matchups = Matchup[];
 export function generateMatchups(input: Video[]): Matchups {
   // Check if we have correct number of videos
   // Input will only be valid if we have
-  // 8 / 16 / 32 / 64 videos
+  // 2 / 8 / 16 / 32 / 64 videos
   if (!validatePlaylistItemCount(input)) {
     throw new Error("Invalid playlist count");
   }
@@ -28,10 +28,6 @@ export function generateMatchups(input: Video[]): Matchups {
   const numberOfMatchups = shuffledInput.length / 2;
 
   for (let i = 0; i < numberOfMatchups; i++) {
-    // We want to generate matchups in pairs of 2
-    // let a: Video;
-    // let b: Video;
-
     const a = shuffledInput[2 * i];
     const b = shuffledInput[2 * i + 1];
 
