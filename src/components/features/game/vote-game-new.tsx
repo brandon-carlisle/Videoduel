@@ -30,6 +30,11 @@ export default function VoteGameNew({ bracket }: Props) {
   }, [bracket.videos]);
 
   const handleVote = (video: Video) => {
+    if (isFinalMatchup) {
+      console.log("Final matchup");
+      return;
+    }
+
     setSelectedVideo(video);
     setIsZooming(true);
 
@@ -80,6 +85,9 @@ export default function VoteGameNew({ bracket }: Props) {
 
   // Get the current matchup from the list
   const currentMatchup = matchups[currentMatchupIndex] || null;
+
+  // Check if current matchup is the final
+  const isFinalMatchup = matchups.length === 1;
 
   console.log(matchups);
 
