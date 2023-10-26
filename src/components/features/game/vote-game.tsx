@@ -1,121 +1,173 @@
-// import { type Bracket, type Video } from "@prisma/client";
-// import { useCallback, useEffect, useState } from "react";
+import { type Bracket, type Video } from "@prisma/client";
+import { useEffect, useState } from "react";
 
-// import { generateMatchups, getWinners } from "@/utils/matchups/matchup";
-// import { type Matchup } from "@/utils/matchups/types";
+import { api } from "@/utils/api";
+import { generateMatchups, getWinners } from "@/utils/matchups/matchup";
+import { type Matchup } from "@/utils/matchups/types";
 
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 
-// import { EmptyPlayer, YoutubePlayer } from "./youtube-player";
+import { EmptyPlayer, YoutubePlayer } from "./youtube-player";
 
-// interface ExtendedBracket extends Bracket {
-//   videos: Video[];
-// }
+interface ExtendedBracket extends Bracket {
+  videos: Video[];
+}
 
-// interface Props {
-//   bracket: ExtendedBracket;
-// }
+interface Props {
+  bracket: ExtendedBracket;
+}
 
-// export default function VoteGame({ bracket }: Props) {
-//   const [currentMatchupIndex, setCurrentMatchupIndex] = useState(0);
-//   const [matchups, setMatchups] = useState<Matchup[]>([]);
-//   const [winners, setWinners] = useState<Video[]>([]);
-//   const [currentRound, setCurrentRound] = useState(1);
-//   const [finalWinner, setFinalWinner] = useState<null | Video>(null);
+export default function VoteGameNew({ bracket }: Props) {
+  const [matchups, setMatchups] = useState<Matchup[]>([]);
+  const [currentMatchupIndex, setCurrentMatchupIndex] = useState(0);
 
-//   const startNewRound = useCallback((newMatchups: Matchup[]) => {
-//     setMatchups(newMatchups);
-//     setCurrentMatchupIndex(0);
-//     setWinners([]);
-//     setCurrentRound((prevRound) => prevRound + 1);
-//     // moveToNextMatchup(0, newMatchups); // Skip initial double-byes
-//   }, []);
+  const [selectedVideo, setSelectedVideo] = useState<Video>();
+  const [isZooming, setIsZooming] = useState(false);
+  const [finalWinner, setFinalWinner] = useState<Video>();
 
-//   useEffect(() => {
-//     const generatedMatchups = generateMatchups(bracket.videos);
-//     startNewRound(generatedMatchups);
-//   }, [bracket.videos, startNewRound]);
+  const videoMutate = api.video.addWin.useMutation();
 
-//   const currentMatchup = matchups[currentMatchupIndex];
+  useEffect(() => {
+    const newMatchups = generateMatchups(bracket.videos);
+    setMatchups(newMatchups);
+    setCurrentMatchupIndex(0); // Initialize to the first matchup
+  }, [bracket.videos]);
 
-//   const handleVote = (winner: Video) => {
-//     if (!currentMatchup) return;
+  const handleVote = (video: Video) => {
+    if (isFinalMatchup) {
+      handleFinalWin(video);
+      return;
+    }
 
-//     const updatedMatchup = { ...currentMatchup, winner };
-//     const updatedMatchups = matchups.map((matchup, index) =>
-//       index === currentMatchupIndex ? updatedMatchup : matchup,
-//     );
-//     setMatchups(updatedMatchups);
-//     moveToNextMatchup(currentMatchupIndex + 1, updatedMatchups);
-//   };
+    setSelectedVideo(video);
+    setIsZooming(true);
 
-//   const moveToNextMatchup = (startIndex: number, matchupList: Matchup[]) => {
-//     let nextIndex = startIndex;
+    // Update matchups to reflect winners
+    setMatchups((prevState) => {
+      const updatedMatchups = [...prevState];
 
-//     while (
-//       nextIndex < matchupList.length &&
-//       matchupList[nextIndex]?.a === null &&
-//       matchupList[nextIndex]?.b === null
-//     ) {
-//       nextIndex += 1;
-//     }
+      updatedMatchups[currentMatchupIndex] = {
+        // @ts-expect-error TODO
+        a: updatedMatchups[currentMatchupIndex]?.a,
+        // @ts-expect-error TODO
+        b: updatedMatchups[currentMatchupIndex]?.b,
+        winner: video,
+      };
 
-//     if (nextIndex < matchupList.length) {
-//       setCurrentMatchupIndex(nextIndex);
-//     } else {
-//       const currentWinners = getWinners(matchupList);
-//       setWinners(currentWinners);
+      return updatedMatchups;
+    });
 
-//       if (currentWinners.length === 1) {
-//         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-//         setFinalWinner(currentWinners[0]!);
-//       }
-//     }
-//   };
+    // Delay to allow time for the zoom-in animation
+    setTimeout(() => {
+      setTimeout(() => {
+        handleNextMatchup();
+        setIsZooming(false);
+      }, 1000);
+    }, 2000);
+  };
 
-//   return (
-//     <div className="mt-20 flex flex-col items-center justify-center gap-6">
-//       <div className="text-2xl font-semibold">Round: {currentRound}</div>
-//       {finalWinner ? (
-//         <div className="flex flex-col items-center justify-center gap-3">
-//           <YoutubePlayer id={finalWinner.videoId} />
-//           <p>Final winner is video: {finalWinner.videoId}</p>
-//         </div>
-//       ) : (
-//         currentMatchup && (
-//           <div className="grid grid-cols-1 place-items-center gap-3 lg:grid-cols-2">
-//             <div className="flex flex-col items-center justify-center gap-3">
-//               {currentMatchup.a ? (
-//                 <div className="flex flex-col gap-3">
-//                   <YoutubePlayer id={currentMatchup.a.videoId} />
-//                   <p>{currentMatchup.a.videoId}</p>
+  const handleNextMatchup = () => {
+    if (currentMatchupIndex < matchups.length - 1) {
+      setCurrentMatchupIndex((prevIndex) => prevIndex + 1);
+    } else {
+      // Handle end of matchups
+      console.log("All matchups voted on");
+    }
+  };
 
-//                   <Button onClick={() => handleVote(currentMatchup.a)}>
-//                     Vote A
-//                   </Button>
-//                 </div>
-//               ) : (
-//                 <EmptyPlayer />
-//               )}
-//             </div>
+  const handleNextRound = () => {
+    const roundWinners = getWinners(matchups);
+    const nextRoundMatchups = generateMatchups(roundWinners);
+    setMatchups(nextRoundMatchups);
+    setCurrentMatchupIndex(0);
+    setIsZooming(false);
+  };
 
-//             <div className="flex flex-col items-center justify-center gap-3">
-//               {currentMatchup.b ? (
-//                 <div className="flex flex-col gap-3">
-//                   <YoutubePlayer id={currentMatchup.b.videoId} />
-//                   <p>{currentMatchup.b.videoId}</p>
+  if (matchups[matchups.length - 1]?.winner) {
+    handleNextRound();
+  }
 
-//                   <Button onClick={() => handleVote(currentMatchup.b)}>
-//                     Vote B
-//                   </Button>
-//                 </div>
-//               ) : (
-//                 <EmptyPlayer />
-//               )}
-//             </div>
-//           </div>
-//         )
-//       )}
-//     </div>
-//   );
-// }
+  // Get the current matchup from the list
+  const currentMatchup = matchups[currentMatchupIndex] || null;
+
+  // Check if current matchup is the final
+  const isFinalMatchup = matchups.length === 1;
+
+  const handleFinalWin = (winner: Video) => {
+    setFinalWinner(winner);
+
+    // We will always have the bracket ID.
+    if (winner.bracketId) {
+      videoMutate.mutate({ bracketId: winner.bracketId, id: winner.id });
+    }
+  };
+
+  console.log(matchups);
+
+  return (
+    <div className="mt-20 flex flex-col items-center justify-center gap-6">
+      <div className="grid grid-cols-1 place-items-center gap-3 lg:grid-cols-2">
+        {finalWinner ? (
+          <div>
+            <YoutubePlayer id={finalWinner.videoId} />
+            <p>WINNER!!!!</p>
+          </div>
+        ) : (
+          <>
+            {" "}
+            <div className="flex flex-col items-center justify-center gap-3">
+              {currentMatchup?.a ? (
+                <div
+                  className={
+                    selectedVideo === currentMatchup.a && isZooming
+                      ? "zoom-in"
+                      : ""
+                  }
+                >
+                  <div className="flex flex-col gap-3">
+                    <YoutubePlayer id={currentMatchup.a.videoId} />
+                    <p>{currentMatchup.a.videoId}</p>
+
+                    <Button
+                      onClick={() => handleVote(currentMatchup.a)}
+                      disabled={isZooming}
+                    >
+                      Vote A
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <EmptyPlayer />
+              )}
+            </div>
+            <div className="flex flex-col items-center justify-center gap-3">
+              {currentMatchup?.b ? (
+                <div
+                  className={
+                    selectedVideo === currentMatchup.b && isZooming
+                      ? "zoom-in"
+                      : ""
+                  }
+                >
+                  <div className="flex flex-col gap-3">
+                    <YoutubePlayer id={currentMatchup.b.videoId} />
+                    <p>{currentMatchup.b.videoId}</p>
+
+                    <Button
+                      onClick={() => handleVote(currentMatchup.b)}
+                      disabled={isZooming}
+                    >
+                      Vote B
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <EmptyPlayer />
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
