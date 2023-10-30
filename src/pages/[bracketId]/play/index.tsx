@@ -5,6 +5,7 @@ import createSSGHelper from "@/server/helpers/ssg-helper";
 import { api } from "@/utils/api";
 
 import VoteGame from "@/components/features/game/vote-game";
+import Header from "@/components/features/header/header";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -22,6 +23,7 @@ export default function BracketPage(props: Props) {
 
   return (
     <>
+      <Header title={bracket.name} description="" />
       <VoteGame bracket={bracket} />
     </>
   );

@@ -52,7 +52,7 @@ export const bracketRouter = createTRPCRouter({
               data: videos.map((video) => ({
                 videoId: video.snippet?.resourceId?.videoId as string,
                 title: video.snippet?.title as string,
-                thumbnail: video.snippet?.thumbnails?.default?.url as string,
+                thumbnail: video.snippet?.thumbnails?.high?.url as string,
               })),
             },
           },

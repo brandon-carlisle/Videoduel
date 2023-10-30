@@ -20,7 +20,9 @@ export default function HomePage() {
 
       <div className="mb-16">
         {!session ? (
-          <Button onClick={() => void signIn("discord")}>Create bracket</Button>
+          <Button onClick={() => void signIn("discord")} variant={"secondary"}>
+            Sign in to create
+          </Button>
         ) : (
           <Button asChild>
             <Link href="/create">Create bracket</Link>
