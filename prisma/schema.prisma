@@ -82,7 +82,7 @@ model Bracket {
 model Video {
     id        String   @id @default(cuid())
     videoId   String
-    wins      Int?
+    wins      Int?     @default(0)
     Bracket   Bracket? @relation(fields: [bracketId], references: [id])
     bracketId String?
     title     String?
