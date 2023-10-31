@@ -4,8 +4,5 @@
 - [ ] Create TRPC endpoint for finishing a match
 - [x] Make user dashboard/profile so user can see all of their own brackets
 - [x] Add abilty to delete a bracket
-- [ ] Add "featured" flag for a bracket
-- [ ] Show featured brackets on home page
-
-clkmlusfv0001nf5sjjfwns6b
-clkmlvdd3000jnf5sqe3xlm10
+- [x] Add "featured" flag for a bracket
+- [x] Show featured brackets on home page
