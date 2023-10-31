@@ -92,7 +92,7 @@ export const bracketRouter = createTRPCRouter({
           id: input.bracketId,
         },
         include: {
-          videos: true,
+          videos: { orderBy: { wins: "desc" } },
           createdBy: { select: { image: true, name: true } },
         },
       });

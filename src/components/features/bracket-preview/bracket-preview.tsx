@@ -40,22 +40,35 @@ export default function BracketPreview({ bracket }: Props) {
 
         <div className="col-span-2 md:max-h-screen md:overflow-scroll">
           <ul className="space-y-5">
-            {bracket.videos.map((video) => {
+            {bracket.videos.map((video, idx) => {
+              let winsText = "";
+
+              if (idx === 0) winsText = "🥇";
+              if (idx === 1) winsText = "🥈";
+              if (idx === 2) winsText = "🥉";
+
               return (
                 <li
                   key={video.id}
                   className="border-b-2 border-secondary pb-3 last:border-none"
                 >
-                  {video.thumbnail && video.title && (
-                    <Image
-                      src={video.thumbnail}
-                      width={500}
-                      height={500}
-                      alt={`Youtube thumbnail for ${video.title}`}
-                      className="mb-2 h-auto w-auto"
-                    />
-                  )}
-                  <h3 className="font-semibold">{video.title}</h3>
+                  <div className="flex gap-2">
+                    {video.thumbnail && video.title && (
+                      <Image
+                        src={video.thumbnail}
+                        width={500}
+                        height={500}
+                        alt={`Youtube thumbnail for ${video.title}`}
+                        className="mb-2 h-auto w-auto rounded-lg"
+                      />
+                    )}
+                    <div className="p-2">
+                      <p className="mb-2 text-xl font-bold">
+                        {winsText} {video.wins} votes
+                      </p>
+                      <p className="font-semibold">{video.title}</p>
+                    </div>
+                  </div>
                 </li>
               );
             })}
