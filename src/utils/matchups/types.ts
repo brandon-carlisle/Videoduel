@@ -5,3 +5,5 @@ export interface Matchup {
   b: Video;
   winner: Video | null;
 }
+
+export type Matchups = Matchup[];

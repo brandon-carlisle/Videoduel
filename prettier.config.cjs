@@ -5,8 +5,8 @@ const config = {
   singleQuote: false,
   semi: true,
   importOrder: [
-    "^@core/(.*)$",
     "^@/styles/(.*)$",
+    "^@prisma/client",
     "^@/server/(.*)$",
     "^@/utils/(.*)$",
     "^@/components/(.*)$",

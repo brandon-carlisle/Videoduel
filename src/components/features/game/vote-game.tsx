@@ -1,8 +1,9 @@
-import { type Bracket, type Video } from "@prisma/client";
 import { useEffect, useState } from "react";
 
+import { type Bracket, type Video } from "@prisma/client";
+
 import { api } from "@/utils/api";
-import { generateMatchups, getWinners } from "@/utils/matchups/matchup";
+import { generateMatchups, getWinners } from "@/utils/matchups/matchups";
 import { type Matchup } from "@/utils/matchups/types";
 
 import { Button } from "@/components/ui/button";

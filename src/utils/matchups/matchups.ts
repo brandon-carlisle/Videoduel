@@ -1,7 +1,7 @@
 import { type Video } from "@prisma/client";
 
 import { validatePlaylistItemCount } from "../validate-playlist-item-count";
-import { type Matchup } from "./types";
+import type { Matchups } from "./types";
 
 function shuffle(input: Video[]) {
   return input
@@ -9,8 +9,6 @@ function shuffle(input: Video[]) {
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
 }
-
-type Matchups = Matchup[];
 
 export function generateMatchups(input: Video[]): Matchups {
   // Check if we have correct number of videos
