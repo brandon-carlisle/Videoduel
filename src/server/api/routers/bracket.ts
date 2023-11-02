@@ -18,11 +18,6 @@ const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.slidingWindow(2, "1 m"),
   analytics: true,
-  /**
-   * Optional prefix for the keys used in redis. This is useful if you want to share a redis
-   * instance with other applications and want to avoid key collisions. The default prefix is
-   * "@upstash/ratelimit"
-   */
   prefix: "@upstash/ratelimit",
 });
 
@@ -54,7 +49,7 @@ export const bracketRouter = createTRPCRouter({
       if (status !== 200)
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "youtube data api client error",
+          message: "youtube_data client error",
         });
 
       const { items: videos } = data;
@@ -62,7 +57,8 @@ export const bracketRouter = createTRPCRouter({
       if (!videos || !validatePlaylistItemCount(videos)) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Check number of videos in playlist. Must be 8/16/32/64.",
+          message:
+            "Check number of videos in playlist. Must be 2/4/8/16/32/64.",
         });
       }
 
