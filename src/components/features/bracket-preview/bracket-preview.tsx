@@ -20,6 +20,15 @@ interface Props {
 }
 
 export default function BracketPreview({ bracket }: Props) {
+  const totalVotes = bracket.videos.reduce(
+    (acc, video) => (acc += video.wins ?? 0),
+    0,
+  );
+
+  const calcWinPercentage = (wins: number) => {
+    return Number((wins / totalVotes) * 100).toFixed(2);
+  };
+
   return (
     <>
       <div className="grid md:grid-cols-3">
@@ -63,10 +72,13 @@ export default function BracketPreview({ bracket }: Props) {
                       />
                     )}
                     <div className="p-2">
-                      <p className="mb-2 text-xl font-bold">
-                        {winsText} {video.wins} votes
+                      <p className="mb-2 text-xl font-bold">{winsText}</p>
+                      <p className="mb-4 font-semibold">{video.title}</p>
+                      <p>
+                        {video.wins
+                          ? `${calcWinPercentage(video.wins)}% of votes`
+                          : "0 votes"}
                       </p>
-                      <p className="font-semibold">{video.title}</p>
                     </div>
                   </div>
                 </li>
