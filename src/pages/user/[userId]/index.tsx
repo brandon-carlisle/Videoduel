@@ -1,4 +1,6 @@
 import { type GetStaticPropsContext, type InferGetStaticPropsType } from "next";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 import createSSGHelper from "@/server/helpers/ssg-helper";
 
@@ -11,6 +13,7 @@ import { Button } from "@/components/ui/button";
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export default function UserPage(props: Props) {
+  const { data: session } = useSession();
   const { data } = api.user.getById.useQuery({ userId: props.userId });
   const utils = api.useContext();
 
@@ -27,7 +30,6 @@ export default function UserPage(props: Props) {
   };
 
   if (!data) return <p>User not found...</p>;
-
   if (isLoading) return <AnimatedLoaderIcon />;
 
   return (
@@ -43,17 +45,26 @@ export default function UserPage(props: Props) {
 
       <ul className="flex flex-col gap-5">
         {data.user.brackets.map((bracket) => {
-          console.log(bracket);
-
           return (
             <li key={bracket.id} className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">{bracket.name}</h2>
-              <Button
-                variant="destructive"
-                onClick={() => handleDeleteBracket(bracket.id)}
-              >
-                Delete
-              </Button>
+              <div className="flex gap-2">
+                <div>
+                  <Button asChild variant="outline">
+                    <Link href={`/${bracket.id}`}>Vote now</Link>
+                  </Button>
+                </div>
+                <div>
+                  {bracket.userId === session?.user.id ? (
+                    <Button
+                      variant="destructive"
+                      onClick={() => handleDeleteBracket(bracket.id)}
+                    >
+                      Delete
+                    </Button>
+                  ) : null}
+                </div>
+              </div>
             </li>
           );
         })}

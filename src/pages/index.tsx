@@ -15,7 +15,7 @@ export default function HomePage() {
     <>
       <Header
         title="Vote on Youtube videos"
-        description="Create a tournament bracket with just a Youtube playlist or play one of our featured brackets"
+        description="Create a tournament bracket with just a Youtube playlist or play a featured bracket"
       />
 
       <div className="mb-16">

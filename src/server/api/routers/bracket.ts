@@ -94,6 +94,13 @@ export const bracketRouter = createTRPCRouter({
         where: { id: input.bracketId },
       });
 
+      if (bracketToDelete?.userId !== ctx.session.user.id) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Bracket user id does not match session user id",
+        });
+      }
+
       if (!bracketToDelete) {
         throw new TRPCError({
           code: "NOT_FOUND",
