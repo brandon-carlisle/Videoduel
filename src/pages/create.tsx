@@ -22,7 +22,7 @@ export default function CreatePage() {
           <Info className="h-4 w-4" />
           <AlertTitle>Heads up</AlertTitle>
           <AlertDescription>
-            Your Youtube playlist must be{" "}
+            Your YouTube playlist must be{" "}
             <span className="font-bold">public</span> and only contain exactly{" "}
             <span className="font-bold">2/4/8/16/32/64</span> videos.
           </AlertDescription>

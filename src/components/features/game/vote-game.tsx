@@ -70,9 +70,6 @@ export default function VoteGameNew({ bracket }: Props) {
   const handleNextMatchup = () => {
     if (currentMatchupIndex < matchups.length - 1) {
       setCurrentMatchupIndex((prevIndex) => prevIndex + 1);
-    } else {
-      // Handle end of matchups
-      console.log("All matchups voted on");
     }
   };
 
@@ -102,8 +99,6 @@ export default function VoteGameNew({ bracket }: Props) {
       videoMutate.mutate({ bracketId: winner.bracketId, id: winner.id });
     }
   };
-
-  console.log(matchups);
 
   return (
     <div className="mt-20 flex flex-col items-center justify-center gap-6">

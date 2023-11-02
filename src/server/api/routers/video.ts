@@ -14,10 +14,8 @@ export const videoRouter = createTRPCRouter({
         data: { wins: { increment: 1 } },
       });
 
-      const result = await ctx.prisma.video.findUnique({
+      await ctx.prisma.video.findUnique({
         where: { id: input.id, bracketId: input.bracketId },
       });
-
-      console.log("Res: ", result);
     }),
 });

@@ -7,9 +7,9 @@
 - [x] Add "featured" flag for a bracket
 - [x] Show featured brackets on home page
 
-- [ ] Add user profile button to navbar
-- [ ] Display users brackets on profile
-- [ ] Allow user to delete their brackets
+- [x] Add user profile button to navbar
+- [x] Display users brackets on profile
+- [x] Allow user to delete their brackets
 - [ ] Allow user to delete all their data/profile
 
 - [ ] Display current "round" while playing a bracket
