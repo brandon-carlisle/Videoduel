@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import AuthButton from "../auth-button/auth-button";
+import UserButton from "../user-button/user-button";
 import { ThemeToggle } from "./theme-toggle";
 
 export default function Navbar() {
@@ -10,6 +11,7 @@ export default function Navbar() {
         Vote
       </Link>
       <div className="flex gap-2">
+        <UserButton />
         <AuthButton />
         <ThemeToggle />
       </div>
