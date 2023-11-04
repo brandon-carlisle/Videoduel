@@ -1,7 +1,11 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
   getById: publicProcedure
@@ -24,4 +28,24 @@ export const userRouter = createTRPCRouter({
 
       return { user };
     }),
+
+  remove: protectedProcedure.mutation(async ({ ctx }) => {
+    // This will remove ALL user data including any videos and brackets
+
+    const videosDelete = ctx.prisma.video.deleteMany({
+      where: { userId: ctx.session.user.id },
+    });
+
+    const bracketsDelete = ctx.prisma.bracket.deleteMany({
+      where: { userId: ctx.session.user.id },
+    });
+
+    const userDelete = ctx.prisma.user.delete({
+      where: { id: ctx.session.user.id },
+    });
+
+    const accountDelete = ctx.prisma.account.delete({
+      where: { userId: ctx.session.user.id },
+    });
+  }),
 });

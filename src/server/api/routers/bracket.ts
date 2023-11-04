@@ -74,6 +74,7 @@ export const bracketRouter = createTRPCRouter({
                 videoId: video.snippet?.resourceId?.videoId as string,
                 title: video.snippet?.title as string,
                 thumbnail: video.snippet?.thumbnails?.high?.url as string,
+                userId: ctx.session.user.id,
               })),
             },
           },

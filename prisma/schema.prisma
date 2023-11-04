@@ -14,12 +14,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -64,6 +58,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     brackets      Bracket[]
+    Video         Video[]
 }
 
 model Bracket {
@@ -87,4 +82,7 @@ model Video {
     bracketId String?
     title     String?
     thumbnail String?
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
 }
