@@ -6,9 +6,11 @@ import createSSGHelper from "@/server/helpers/ssg-helper";
 
 import { api } from "@/utils/api";
 
+import DeleteAccountConfirm from "@/components/features/delete-account/delete-account";
 import Header from "@/components/features/header/header";
 import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -69,6 +71,18 @@ export default function UserPage(props: Props) {
           );
         })}
       </ul>
+
+      {session?.user.id === data.user.id ? (
+        <>
+          {" "}
+          <div className="my-5">
+            <Separator />
+          </div>
+          <div>
+            <DeleteAccountConfirm />
+          </div>
+        </>
+      ) : null}
     </>
   );
 }

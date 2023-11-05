@@ -42,10 +42,15 @@ export const userRouter = createTRPCRouter({
 
     const userDelete = ctx.prisma.user.delete({
       where: { id: ctx.session.user.id },
+      include: { accounts: { where: { userId: ctx.session.user.id } } },
     });
 
-    const accountDelete = ctx.prisma.account.delete({
-      where: { userId: ctx.session.user.id },
-    });
+    const transation = await ctx.prisma.$transaction([
+      videosDelete,
+      bracketsDelete,
+      userDelete,
+    ]);
+
+    console.log(transation);
   }),
 });
