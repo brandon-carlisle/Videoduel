@@ -104,9 +104,9 @@ export default function VoteGameNew({ bracket }: Props) {
     <div className="mt-20 flex flex-col items-center justify-center gap-6">
       <div className="grid grid-cols-1 place-items-center gap-3 lg:grid-cols-2">
         {finalWinner ? (
-          <div>
+          <div className="self-center lg:col-span-2">
             <YoutubePlayer id={finalWinner.videoId} />
-            <p>WINNER!!!!</p>
+            <p>Final winner is {finalWinner.title} 🏆</p>
           </div>
         ) : (
           <>
