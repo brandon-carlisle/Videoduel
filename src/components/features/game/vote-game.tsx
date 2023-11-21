@@ -8,6 +8,7 @@ import { type Matchup } from "@/utils/matchups/types";
 
 import { Button } from "@/components/ui/button";
 
+import Confetti from "../confetti/confetti";
 import { EmptyPlayer, YoutubePlayer } from "./youtube-player";
 
 interface ExtendedBracket extends Bracket {
@@ -104,13 +105,17 @@ export default function VoteGameNew({ bracket }: Props) {
     <div className="mt-20 flex flex-col items-center justify-center gap-6">
       <div className="grid grid-cols-1 place-items-center gap-3 lg:grid-cols-2">
         {finalWinner ? (
-          <div className="self-center lg:col-span-2">
-            <YoutubePlayer id={finalWinner.videoId} />
-            <p>Final winner is {finalWinner.title} 🏆</p>
-          </div>
+          <>
+            <Confetti />
+            <div className="self-center lg:col-span-2">
+              <p className="mb-3 text-center text-2xl font-semibold">
+                {finalWinner.title} wins 🏆
+              </p>
+              <YoutubePlayer id={finalWinner.videoId} />
+            </div>
+          </>
         ) : (
           <>
-            {" "}
             <div className="flex flex-col items-center justify-center gap-3">
               {currentMatchup?.a ? (
                 <div
@@ -122,7 +127,7 @@ export default function VoteGameNew({ bracket }: Props) {
                 >
                   <div className="flex flex-col gap-3">
                     <YoutubePlayer id={currentMatchup.a.videoId} />
-                    <p>{currentMatchup.a.videoId}</p>
+                    <p className="font-semibold">{currentMatchup.a.title}</p>
 
                     <Button
                       onClick={() => handleVote(currentMatchup.a)}
@@ -147,7 +152,7 @@ export default function VoteGameNew({ bracket }: Props) {
                 >
                   <div className="flex flex-col gap-3">
                     <YoutubePlayer id={currentMatchup.b.videoId} />
-                    <p>{currentMatchup.b.videoId}</p>
+                    <p className="font-semibold">{currentMatchup.b.title}</p>
 
                     <Button
                       onClick={() => handleVote(currentMatchup.b)}
