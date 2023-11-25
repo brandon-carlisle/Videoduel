@@ -116,58 +116,58 @@ export default function VoteGameNew({ bracket }: Props) {
           </>
         ) : (
           <>
-            <div className="flex flex-col items-center justify-center gap-3">
-              {currentMatchup?.a ? (
-                <div
-                  className={
-                    selectedVideo === currentMatchup.a && isZooming
-                      ? "zoom-in"
-                      : ""
-                  }
-                >
-                  <div className="flex flex-col gap-3">
-                    <YoutubePlayer id={currentMatchup.a.videoId} />
-                    <p className="font-semibold">{currentMatchup.a.title}</p>
+            {currentMatchup?.a ? (
+              <VideoSelection
+                handleVote={handleVote}
+                matchup={currentMatchup.a}
+                selectedVideo={selectedVideo}
+                zooming={isZooming}
+              />
+            ) : (
+              <EmptyPlayer />
+            )}
 
-                    <Button
-                      onClick={() => handleVote(currentMatchup.a)}
-                      disabled={isZooming}
-                    >
-                      Vote A
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <EmptyPlayer />
-              )}
-            </div>
-            <div className="flex flex-col items-center justify-center gap-3">
-              {currentMatchup?.b ? (
-                <div
-                  className={
-                    selectedVideo === currentMatchup.b && isZooming
-                      ? "zoom-in"
-                      : ""
-                  }
-                >
-                  <div className="flex flex-col gap-3">
-                    <YoutubePlayer id={currentMatchup.b.videoId} />
-                    <p className="font-semibold">{currentMatchup.b.title}</p>
-
-                    <Button
-                      onClick={() => handleVote(currentMatchup.b)}
-                      disabled={isZooming}
-                    >
-                      Vote B
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <EmptyPlayer />
-              )}
-            </div>
+            {currentMatchup?.b ? (
+              <VideoSelection
+                handleVote={handleVote}
+                matchup={currentMatchup.b}
+                selectedVideo={selectedVideo}
+                zooming={isZooming}
+              />
+            ) : (
+              <EmptyPlayer />
+            )}
           </>
         )}
+      </div>
+    </div>
+  );
+}
+
+interface VideoSelectionProps {
+  matchup: Video;
+  zooming: boolean;
+  selectedVideo: Video | undefined;
+  handleVote: (video: Video) => void;
+}
+
+function VideoSelection({
+  matchup,
+  zooming,
+  selectedVideo,
+  handleVote,
+}: VideoSelectionProps) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-3">
+      <div className={selectedVideo === matchup && zooming ? "zoom-in" : ""}>
+        <div className="flex flex-col gap-3">
+          <YoutubePlayer id={matchup.videoId} />
+          <p className="font-semibold">{matchup.title}</p>
+
+          <Button onClick={() => handleVote(matchup)} disabled={zooming}>
+            Vote A
+          </Button>
+        </div>
       </div>
     </div>
   );
