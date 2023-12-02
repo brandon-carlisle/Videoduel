@@ -53,7 +53,7 @@ export default function UserPage(props: Props) {
               <div className="flex gap-2">
                 <div>
                   <Button asChild variant="outline">
-                    <Link href={`/${bracket.id}`}>Vote now</Link>
+                    <Link href={`/bracket/${bracket.id}`}>Vote now</Link>
                   </Button>
                 </div>
                 <div>
@@ -74,7 +74,6 @@ export default function UserPage(props: Props) {
 
       {session?.user.id === data.user.id ? (
         <>
-          {" "}
           <div className="my-5">
             <Separator />
           </div>

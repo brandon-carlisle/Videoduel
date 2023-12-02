@@ -43,7 +43,7 @@ export default function BracketPreview({ bracket }: Props) {
           />
 
           <Button asChild>
-            <Link href={`/${bracket.id}/play`}>Vote on bracket</Link>
+            <Link href={`/vote/${bracket.id}`}>Vote on bracket</Link>
           </Button>
         </div>
 

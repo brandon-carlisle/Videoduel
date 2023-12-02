@@ -35,7 +35,7 @@ export default function FeaturedBrackets() {
             </CardHeader>
             <CardContent>
               <Button asChild variant="outline">
-                <Link href={`/${bracket.id}`}>Vote now</Link>
+                <Link href={`/bracket/${bracket.id}`}>Vote now</Link>
               </Button>
             </CardContent>
           </Card>

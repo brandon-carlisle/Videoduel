@@ -25,7 +25,7 @@ export default function HomePage() {
           </Button>
         ) : (
           <Button asChild>
-            <Link href="/create">Create bracket</Link>
+            <Link href="/create-bracket">Create bracket</Link>
           </Button>
         )}
       </div>
