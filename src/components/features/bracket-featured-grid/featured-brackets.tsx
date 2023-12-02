@@ -14,7 +14,9 @@ import {
 import AnimatedLoaderIcon from "../loader-icon/animated-loader-icon";
 
 export default function FeaturedBrackets() {
-  const { data, status } = api.bracket.getFeatured.useQuery();
+  const { data, status } = api.bracket.getFeatured.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
 
   if (status === "loading") {
     return <AnimatedLoaderIcon />;
