@@ -49,7 +49,10 @@ export default function DeleteAccountConfirm() {
             ) : (
               <>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteAccount}>
+                <AlertDialogAction
+                  onClick={handleDeleteAccount}
+                  className="ml-2"
+                >
                   Continue
                 </AlertDialogAction>
               </>
