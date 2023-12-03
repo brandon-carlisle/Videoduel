@@ -101,6 +101,8 @@ export default function VoteGameNew({ bracket }: Props) {
     }
   };
 
+  console.log(matchups);
+
   return (
     <div className="mt-20 flex flex-col items-center justify-center gap-6">
       <div className="grid grid-cols-1 place-items-center gap-3 lg:grid-cols-2">

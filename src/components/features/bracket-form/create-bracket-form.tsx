@@ -58,7 +58,7 @@ export default function CreateBracketForm() {
     });
   };
 
-  if (isSuccess) void router.push(`/${data.bracketId}`);
+  if (isSuccess) void router.push(`/bracket/${data.bracketId}`);
 
   return (
     <Form {...form}>
