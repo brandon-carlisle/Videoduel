@@ -26,7 +26,7 @@ export default function DeleteAccountConfirm() {
   };
 
   if (isSuccess) {
-    void router.push("/");
+    void router.replace("/");
   }
 
   return (
