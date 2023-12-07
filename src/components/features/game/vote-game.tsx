@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { type Bracket, type Video } from "@prisma/client";
@@ -114,6 +115,12 @@ export default function VoteGameNew({ bracket }: Props) {
                 {finalWinner.title} wins 🏆
               </p>
               <YoutubePlayer id={finalWinner.videoId} />
+
+              <div className="mt-3 flex items-center justify-center">
+                <Button asChild variant="outline">
+                  <Link href={`/bracket/${bracket.id}`}>View results</Link>
+                </Button>
+              </div>
             </div>
           </>
         ) : (
