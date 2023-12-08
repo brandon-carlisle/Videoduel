@@ -50,7 +50,5 @@ export const userRouter = createTRPCRouter({
       bracketsDelete,
       userDelete,
     ]);
-
-    console.log(transation);
   }),
 });
