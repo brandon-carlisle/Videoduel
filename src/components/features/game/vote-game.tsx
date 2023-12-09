@@ -45,6 +45,14 @@ export default function VoteGameNew({ bracket }: Props) {
     setSelectedVideo(video);
     setIsZooming(true);
 
+    // Delay to allow time for the zoom-in animation
+    setTimeout(() => {
+      setTimeout(() => {
+        handleNextMatchup();
+        setIsZooming(false);
+      }, 1000);
+    }, 2000);
+
     // Update matchups to reflect winners
     setMatchups((prevState) => {
       const updatedMatchups = [...prevState];
@@ -59,14 +67,6 @@ export default function VoteGameNew({ bracket }: Props) {
 
       return updatedMatchups;
     });
-
-    // Delay to allow time for the zoom-in animation
-    setTimeout(() => {
-      setTimeout(() => {
-        handleNextMatchup();
-        setIsZooming(false);
-      }, 1000);
-    }, 2000);
   };
 
   const handleNextMatchup = () => {
@@ -104,7 +104,7 @@ export default function VoteGameNew({ bracket }: Props) {
 
   return (
     <div className="mt-20 flex flex-col items-center justify-center gap-6">
-      <div className="grid grid-cols-1 place-items-center gap-3 lg:grid-cols-2">
+      <div className="grid grid-cols-1 justify-start gap-3 lg:grid-cols-2">
         {finalWinner ? (
           <>
             <Confetti />
@@ -169,7 +169,7 @@ function VideoSelection({
   voteLabel,
 }: VideoSelectionProps) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3">
+    <div className="flex max-w-[560px] flex-col items-center justify-start gap-3">
       <div className={selectedVideo === matchup && zooming ? "zoom-in" : ""}>
         <div className="flex flex-col gap-3">
           <YoutubePlayer id={matchup.videoId} />

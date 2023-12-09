@@ -31,7 +31,7 @@ export default function BracketPreview({ bracket }: Props) {
 
   return (
     <>
-      <div className="grid md:grid-cols-3">
+      <div className="grid md:grid-cols-4">
         <div className="mb-5">
           <Header
             title={bracket.name || "Could not find bracket name..."}
@@ -47,7 +47,7 @@ export default function BracketPreview({ bracket }: Props) {
           </Button>
         </div>
 
-        <div className="col-span-2 md:max-h-screen md:overflow-scroll">
+        <div className="col-span-3 md:max-h-screen md:overflow-scroll">
           <ul className="space-y-5">
             {bracket.videos.map((video, idx) => {
               let winsText = "";
