@@ -131,6 +131,7 @@ export default function VoteGameNew({ bracket }: Props) {
                 matchup={currentMatchup.a}
                 selectedVideo={selectedVideo}
                 zooming={isZooming}
+                voteLabel="A"
               />
             ) : (
               <EmptyPlayer />
@@ -142,6 +143,7 @@ export default function VoteGameNew({ bracket }: Props) {
                 matchup={currentMatchup.b}
                 selectedVideo={selectedVideo}
                 zooming={isZooming}
+                voteLabel="B"
               />
             ) : (
               <EmptyPlayer />
@@ -158,6 +160,7 @@ interface VideoSelectionProps {
   zooming: boolean;
   selectedVideo: Video | undefined;
   handleVote: (video: Video) => void;
+  voteLabel: "A" | "B";
 }
 
 function VideoSelection({
@@ -165,6 +168,7 @@ function VideoSelection({
   zooming,
   selectedVideo,
   handleVote,
+  voteLabel,
 }: VideoSelectionProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-3">
@@ -174,7 +178,7 @@ function VideoSelection({
           <p className="font-semibold">{matchup.title}</p>
 
           <Button onClick={() => handleVote(matchup)} disabled={zooming}>
-            Vote A
+            Vote {voteLabel}
           </Button>
         </div>
       </div>
