@@ -10,7 +10,7 @@
 - [x] Add user profile button to navbar
 - [x] Display users brackets on profile
 - [x] Allow user to delete their brackets
-- [ ] Allow user to delete all their data/profile
+- [x] Allow user to delete all their data/profile
 
 - [ ] Display current "round" while playing a bracket
-- [ ] Improve final winner screen (maybe redirect after a time)
+- [x] Improve final winner screen (maybe redirect after a time)
