@@ -11,6 +11,8 @@ import { type Matchup } from "@/utils/matchups/types";
 import { Button } from "@/components/ui/button";
 
 import Confetti from "../confetti/confetti";
+import { getCurrentRound } from "./utils";
+import { VideoSelection } from "./video-selection";
 import { EmptyPlayer, YoutubePlayer } from "./youtube-player";
 
 interface ExtendedBracket extends Bracket {
@@ -97,9 +99,15 @@ export default function VoteGameNew({ bracket }: Props) {
     }
   };
 
+  console.log(matchups);
+
   return (
-    <div className="mt-20 flex flex-col items-center justify-center gap-6">
-      <div className="grid grid-cols-1 justify-start gap-3 lg:grid-cols-2">
+    <>
+      <div className="mt-20 flex flex-col items-center justify-center gap-6">
+        <p className="text-xl font-semibold">
+          {getCurrentRound(matchups.length)}
+        </p>
+
         {finalWinner ? (
           <>
             <Confetti />
@@ -117,7 +125,7 @@ export default function VoteGameNew({ bracket }: Props) {
             </div>
           </>
         ) : (
-          <>
+          <div className="grid grid-cols-1 justify-start gap-3 lg:grid-cols-2">
             {currentMatchup?.a ? (
               <VideoSelection
                 handleVote={handleVote}
@@ -143,51 +151,9 @@ export default function VoteGameNew({ bracket }: Props) {
             ) : (
               <EmptyPlayer />
             )}
-          </>
+          </div>
         )}
       </div>
-    </div>
-  );
-}
-
-interface VideoSelectionProps {
-  matchup: Video;
-  zooming: boolean;
-  selectedVideo: Video | undefined;
-  handleVote: (video: Video) => void;
-  voteLabel: "A" | "B";
-  updateAndHandleNextMatchups: (video: Video) => void;
-}
-
-function VideoSelection({
-  matchup,
-  zooming,
-  selectedVideo,
-  handleVote,
-  voteLabel,
-  updateAndHandleNextMatchups,
-}: VideoSelectionProps) {
-  return (
-    <div
-      className={selectedVideo === matchup && zooming ? "zoom-in" : ""}
-      onAnimationEnd={() => {
-        updateAndHandleNextMatchups(matchup);
-      }}
-    >
-      <div className="h-full max-w-[560px]">
-        <div className="flex h-full flex-col gap-3">
-          <YoutubePlayer id={matchup.videoId} />
-          <p className="font-semibold">{matchup.title}</p>
-
-          <Button
-            onClick={() => handleVote(matchup)}
-            disabled={zooming}
-            className="mt-auto"
-          >
-            Vote {voteLabel}
-          </Button>
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
