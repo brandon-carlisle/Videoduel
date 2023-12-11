@@ -169,13 +169,17 @@ function VideoSelection({
   voteLabel,
 }: VideoSelectionProps) {
   return (
-    <div className="flex max-w-[560px] flex-col items-center justify-start gap-3">
-      <div className={selectedVideo === matchup && zooming ? "zoom-in" : ""}>
-        <div className="flex flex-col gap-3">
+    <div className={selectedVideo === matchup && zooming ? "zoom-in" : ""}>
+      <div className="h-full max-w-[560px]">
+        <div className="flex h-full flex-col gap-3">
           <YoutubePlayer id={matchup.videoId} />
           <p className="font-semibold">{matchup.title}</p>
 
-          <Button onClick={() => handleVote(matchup)} disabled={zooming}>
+          <Button
+            onClick={() => handleVote(matchup)}
+            disabled={zooming}
+            className="mt-auto"
+          >
             Vote {voteLabel}
           </Button>
         </div>
