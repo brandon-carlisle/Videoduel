@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -36,43 +37,37 @@ export default function VoteGameNew({ bracket }: Props) {
     setCurrentMatchupIndex(0); // Initialize to the first matchup
   }, [bracket.videos]);
 
-  const handleVote = (video: Video) => {
-    if (isFinalMatchup) {
-      handleFinalWin(video);
-      return;
-    }
-
-    setSelectedVideo(video);
-    setIsZooming(true);
-
-    // Delay to allow time for the zoom-in animation
-    setTimeout(() => {
-      setTimeout(() => {
-        handleNextMatchup();
-        setIsZooming(false);
-      }, 1000);
-    }, 2000);
-
+  const updateAndHandleNextMatchups = (video: Video) => {
     // Update matchups to reflect winners
     setMatchups((prevState) => {
       const updatedMatchups = [...prevState];
 
       updatedMatchups[currentMatchupIndex] = {
-        // @ts-expect-error TODO
+        // @ts-ignore TODO
         a: updatedMatchups[currentMatchupIndex]?.a,
-        // @ts-expect-error TODO
+        // @ts-ignore TODOs
         b: updatedMatchups[currentMatchupIndex]?.b,
         winner: video,
       };
 
       return updatedMatchups;
     });
-  };
 
-  const handleNextMatchup = () => {
     if (currentMatchupIndex < matchups.length - 1) {
       setCurrentMatchupIndex((prevIndex) => prevIndex + 1);
     }
+
+    setIsZooming(false);
+  };
+
+  const handleVote = (video: Video) => {
+    if (isFinalMatchup) {
+      handleFinalWin(video);
+      return;
+    }
+
+    setIsZooming(true);
+    setSelectedVideo(video);
   };
 
   const handleNextRound = () => {
@@ -130,6 +125,7 @@ export default function VoteGameNew({ bracket }: Props) {
                 selectedVideo={selectedVideo}
                 zooming={isZooming}
                 voteLabel="A"
+                updateAndHandleNextMatchups={updateAndHandleNextMatchups}
               />
             ) : (
               <EmptyPlayer />
@@ -142,6 +138,7 @@ export default function VoteGameNew({ bracket }: Props) {
                 selectedVideo={selectedVideo}
                 zooming={isZooming}
                 voteLabel="B"
+                updateAndHandleNextMatchups={updateAndHandleNextMatchups}
               />
             ) : (
               <EmptyPlayer />
@@ -159,6 +156,7 @@ interface VideoSelectionProps {
   selectedVideo: Video | undefined;
   handleVote: (video: Video) => void;
   voteLabel: "A" | "B";
+  updateAndHandleNextMatchups: (video: Video) => void;
 }
 
 function VideoSelection({
@@ -167,9 +165,15 @@ function VideoSelection({
   selectedVideo,
   handleVote,
   voteLabel,
+  updateAndHandleNextMatchups,
 }: VideoSelectionProps) {
   return (
-    <div className={selectedVideo === matchup && zooming ? "zoom-in" : ""}>
+    <div
+      className={selectedVideo === matchup && zooming ? "zoom-in" : ""}
+      onAnimationEnd={() => {
+        updateAndHandleNextMatchups(matchup);
+      }}
+    >
       <div className="h-full max-w-[560px]">
         <div className="flex h-full flex-col gap-3">
           <YoutubePlayer id={matchup.videoId} />
