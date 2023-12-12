@@ -46,30 +46,43 @@ export default function UserPage(props: Props) {
       </div>
 
       <ul className="flex flex-col gap-5">
-        {data.user.brackets.map((bracket) => {
-          return (
-            <li key={bracket.id} className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">{bracket.name}</h2>
-              <div className="flex gap-2">
-                <div>
-                  <Button asChild variant="outline">
-                    <Link href={`/bracket/${bracket.id}`}>Vote now</Link>
-                  </Button>
-                </div>
-                <div>
-                  {bracket.userId === session?.user.id ? (
-                    <Button
-                      variant="destructive"
-                      onClick={() => handleDeleteBracket(bracket.id)}
-                    >
-                      Delete
+        {data.user.brackets.length >= 1 ? (
+          data.user.brackets.map((bracket) => {
+            return (
+              <li
+                key={bracket.id}
+                className="flex items-center justify-between"
+              >
+                <h2 className="text-lg font-semibold">{bracket.name}</h2>
+                <div className="flex gap-2">
+                  <div>
+                    <Button asChild variant="outline">
+                      <Link href={`/bracket/${bracket.id}`}>Vote now</Link>
                     </Button>
-                  ) : null}
+                  </div>
+                  <div>
+                    {bracket.userId === session?.user.id ? (
+                      <Button
+                        variant="destructive"
+                        onClick={() => handleDeleteBracket(bracket.id)}
+                      >
+                        Delete
+                      </Button>
+                    ) : null}
+                  </div>
                 </div>
-              </div>
-            </li>
-          );
-        })}
+              </li>
+            );
+          })
+        ) : (
+          <div>
+            <p className="mb-3">No brackets yet...</p>
+
+            <Button asChild>
+              <Link href="/create-bracket">Create bracket</Link>
+            </Button>
+          </div>
+        )}
       </ul>
 
       {session?.user.id === data.user.id ? (
