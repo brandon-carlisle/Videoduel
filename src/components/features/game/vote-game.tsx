@@ -99,15 +99,9 @@ export default function VoteGameNew({ bracket }: Props) {
     }
   };
 
-  console.log(matchups);
-
   return (
     <>
       <div className="mt-20 flex flex-col items-center justify-center gap-6">
-        <p className="text-xl font-semibold">
-          {getCurrentRound(matchups.length)}
-        </p>
-
         {finalWinner ? (
           <>
             <Confetti />
@@ -125,33 +119,38 @@ export default function VoteGameNew({ bracket }: Props) {
             </div>
           </>
         ) : (
-          <div className="grid grid-cols-1 justify-start gap-3 lg:grid-cols-2">
-            {currentMatchup?.a ? (
-              <VideoSelection
-                handleVote={handleVote}
-                matchup={currentMatchup.a}
-                selectedVideo={selectedVideo}
-                zooming={isZooming}
-                voteLabel="A"
-                updateAndHandleNextMatchups={updateAndHandleNextMatchups}
-              />
-            ) : (
-              <EmptyPlayer />
-            )}
+          <>
+            <p className="text-xl font-semibold">
+              {getCurrentRound(matchups.length)}
+            </p>
+            <div className="grid grid-cols-1 justify-start gap-3 lg:grid-cols-2">
+              {currentMatchup?.a ? (
+                <VideoSelection
+                  handleVote={handleVote}
+                  matchup={currentMatchup.a}
+                  selectedVideo={selectedVideo}
+                  zooming={isZooming}
+                  voteLabel="A"
+                  updateAndHandleNextMatchups={updateAndHandleNextMatchups}
+                />
+              ) : (
+                <EmptyPlayer />
+              )}
 
-            {currentMatchup?.b ? (
-              <VideoSelection
-                handleVote={handleVote}
-                matchup={currentMatchup.b}
-                selectedVideo={selectedVideo}
-                zooming={isZooming}
-                voteLabel="B"
-                updateAndHandleNextMatchups={updateAndHandleNextMatchups}
-              />
-            ) : (
-              <EmptyPlayer />
-            )}
-          </div>
+              {currentMatchup?.b ? (
+                <VideoSelection
+                  handleVote={handleVote}
+                  matchup={currentMatchup.b}
+                  selectedVideo={selectedVideo}
+                  zooming={isZooming}
+                  voteLabel="B"
+                  updateAndHandleNextMatchups={updateAndHandleNextMatchups}
+                />
+              ) : (
+                <EmptyPlayer />
+              )}
+            </div>
+          </>
         )}
       </div>
     </>
