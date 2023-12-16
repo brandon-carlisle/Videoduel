@@ -47,7 +47,7 @@ export default function VoteGameNew({ bracket }: Props) {
       updatedMatchups[currentMatchupIndex] = {
         // @ts-ignore TODO
         a: updatedMatchups[currentMatchupIndex]?.a,
-        // @ts-ignore TODOs
+        // @ts-ignore TODO
         b: updatedMatchups[currentMatchupIndex]?.b,
         winner: video,
       };

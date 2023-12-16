@@ -23,7 +23,14 @@ export default function BracketPage(props: Props) {
 
   return (
     <>
-      <Header title={bracket.name} description="" />
+      <Header
+        title={bracket.name || "Could not find bracket name..."}
+        description={
+          bracket.createdBy.name
+            ? `by ${bracket.createdBy.name}`
+            : "Could not find username"
+        }
+      />
       <VoteGame bracket={bracket} />
     </>
   );

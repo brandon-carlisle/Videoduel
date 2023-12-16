@@ -15,4 +15,6 @@
 - [x] Display current "round" while playing a bracket
 - [x] Improve final winner screen (maybe redirect after a time)
 - [x] If user has no brackets, on profile show create bracket btn
-- [ ] Fix styling on final winner screen
+- [x] Fix styling on final winner screen
+
+- [ ] Add "current bracket overview feat"
