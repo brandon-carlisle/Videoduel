@@ -95,7 +95,7 @@ export default function CreateBracketForm() {
               <FormLabel>Playlist</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="eg: valid playlist url"
+                  placeholder="eg: https://www.youtube.com/playlist?list=PLRNq9152NuhK2Q4b1LwomqlP5T5HpZ1l2"
                   {...field}
                   type="text"
                 />

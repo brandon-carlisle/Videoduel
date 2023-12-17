@@ -1,6 +1,6 @@
 # Vote
 
-Vote on Youtube videos. Create a tournament style bracket with a single Youtube playlist URl.
+Vote on Youtube videos. Create a tournament style bracket with a single Youtube playlist URL.
 
 ![Voting screen](public/readme/voting.png)
 
