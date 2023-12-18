@@ -39,7 +39,7 @@ export default function HomePage() {
         <div className="flex">
           <Button asChild variant={"link"}>
             <a
-              href="https://github.com/brandon-carlisle/StadiumGuessr"
+              href="https://github.com/brandon-carlisle/videoduel"
               target="_blank"
               rel="noreferrer"
             >
