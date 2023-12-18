@@ -17,7 +17,7 @@ export default function Navbar() {
             alt="vote icon"
             className="h-8 w-8 rounded"
           />
-          <div className="text-4xl font-bold">Vote</div>
+          <div className="text-4xl font-bold">Videoduel</div>
         </div>
       </Link>
       <div className="flex gap-2">
