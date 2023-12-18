@@ -31,9 +31,9 @@ export default function DeleteAccountConfirm() {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <Button variant="outline">Delete account</Button>
-      </AlertDialogTrigger>
+      <Button variant="outline" asChild>
+        <AlertDialogTrigger>Delete account</AlertDialogTrigger>
+      </Button>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
