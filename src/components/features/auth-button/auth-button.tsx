@@ -1,4 +1,5 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 import { Button } from "../../ui/button";
 import AnimatedLoaderIcon from "../loader-icon/animated-loader-icon";
@@ -10,7 +11,7 @@ export default function AuthButton() {
     return (
       <Button disabled>
         <AnimatedLoaderIcon />
-        Loading
+        Sign in
       </Button>
     );
 
@@ -21,8 +22,8 @@ export default function AuthButton() {
           Sign out
         </Button>
       ) : (
-        <Button variant={"outline"} onClick={() => void signIn("discord")}>
-          Sign In
+        <Button variant={"outline"} asChild>
+          <Link href={"/sign-in"}>Sign In</Link>
         </Button>
       )}
     </div>

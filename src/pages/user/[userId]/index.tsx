@@ -39,8 +39,8 @@ export default function UserPage(props: Props) {
       <div>
         {data.user.name && (
           <Header
-            title={`${data.user.name}'s brackets`}
-            description="You can view your own brackets here"
+            title={`${data.user.name}`}
+            description="You can view this users brackets here"
           />
         )}
       </div>
@@ -75,7 +75,7 @@ export default function UserPage(props: Props) {
             );
           })
         ) : (
-          <div>
+          <div className="flex items-center justify-between">
             <p className="mb-3">No brackets yet...</p>
 
             <Button asChild>

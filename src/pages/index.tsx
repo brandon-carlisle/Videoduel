@@ -1,4 +1,4 @@
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 import FeaturedBrackets from "@/components/features/bracket-featured-grid/featured-brackets";
@@ -20,8 +20,8 @@ export default function HomePage() {
 
       <div className="mb-16">
         {!session ? (
-          <Button onClick={() => void signIn("discord")} variant={"secondary"}>
-            Sign in to create
+          <Button variant={"secondary"} asChild>
+            <Link href={"/sign-in"}>Sign in to create</Link>
           </Button>
         ) : (
           <Button asChild>
