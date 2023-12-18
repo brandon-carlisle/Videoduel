@@ -43,7 +43,7 @@ export default function HomePage() {
               target="_blank"
               rel="noreferrer"
             >
-              Source code
+              Code
             </a>
           </Button>
 
