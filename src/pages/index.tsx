@@ -34,6 +34,24 @@ export default function HomePage() {
         <h2 className="mb-8 text-xl font-semibold">Featured brackets</h2>
         <FeaturedBrackets />
       </section>
+
+      <footer className="fixed bottom-0 left-1/2 flex w-full  -translate-x-1/2 items-center justify-center py-4">
+        <div className="flex">
+          <Button asChild variant={"link"}>
+            <a
+              href="https://github.com/brandon-carlisle/StadiumGuessr"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Source code
+            </a>
+          </Button>
+
+          <Button asChild variant={"link"}>
+            <Link href={"/policy"}>Policy</Link>
+          </Button>
+        </div>
+      </footer>
     </>
   );
 }
