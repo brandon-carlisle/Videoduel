@@ -4,7 +4,7 @@ export function getCurrentRound(length: number) {
   } else if (length <= 2) {
     return "Semi Finals 🥊";
   } else if (length <= 4) {
-    return "Quarter Final 🥊";
+    return "Quarter Finals 🥊";
   } else if (length <= 8) {
     return "Round of 16 🎯";
   } else if (length <= 16) {

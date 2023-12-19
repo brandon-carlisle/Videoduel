@@ -76,7 +76,7 @@ export default function UserPage(props: Props) {
           })
         ) : (
           <div className="flex items-center justify-between">
-            <p className="mb-3">No brackets yet...</p>
+            <p>No brackets yet...</p>
 
             <Button asChild>
               <Link href="/create-bracket">Create bracket</Link>
