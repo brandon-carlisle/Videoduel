@@ -2,12 +2,15 @@ import { type GetServerSideProps } from "next";
 import { signIn } from "next-auth/react";
 
 import Header from "@/components/features/header/header";
+import Meta from "@/components/features/meta/meta";
 
 import { getServerAuthSession } from "../server/auth";
 
 export default function SignInPage() {
   return (
     <>
+      <Meta title="Sign in | Videoduel" />
+
       <Header
         title="Sign in"
         description="You only need to sign in if you want to create a bracket."

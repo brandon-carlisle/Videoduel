@@ -1,3 +1,5 @@
+import Meta from "@/components/features/meta/meta";
+
 function formatDate(date: number | Date) {
   return new Intl.DateTimeFormat("en-GB").format(date);
 }
@@ -7,6 +9,8 @@ const LAST_UPDATED = new Date(2023, 12 - 1, 18);
 export default function PolicyPage() {
   return (
     <>
+      <Meta title="Policy | Videoduel" />
+
       <article className="prose mx-auto px-4 py-10 dark:prose-invert">
         <p className="font-semibold">
           Last updated: <span>{formatDate(LAST_UPDATED)}</span>

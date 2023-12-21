@@ -4,6 +4,7 @@ import Link from "next/link";
 import FeaturedBrackets from "@/components/features/bracket-featured-grid/featured-brackets";
 import Header from "@/components/features/header/header";
 import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
+import Meta from "@/components/features/meta/meta";
 import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
@@ -13,6 +14,7 @@ export default function HomePage() {
 
   return (
     <>
+      <Meta title="Videoduel" />
       <Header
         title="Vote on Youtube videos"
         description="Create a tournament bracket with just a Youtube playlist or play a featured bracket"

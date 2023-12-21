@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 
 import CreateBracketForm from "@/components/features/bracket-form/create-bracket-form";
 import Header from "@/components/features/header/header";
+import Meta from "@/components/features/meta/meta";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function CreatePage() {
@@ -12,6 +13,8 @@ export default function CreatePage() {
 
   return (
     <>
+      <Meta title="Create | Videoduel" />
+
       <Header
         title="Create Bracket"
         description="You can create a bracket here using a valid YouTube playlist link."

@@ -9,6 +9,7 @@ import { api } from "@/utils/api";
 import DeleteAccountConfirm from "@/components/features/delete-account/delete-account";
 import Header from "@/components/features/header/header";
 import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
+import Meta from "@/components/features/meta/meta";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -36,6 +37,8 @@ export default function UserPage(props: Props) {
 
   return (
     <>
+      <Meta title={`${data.user.name ?? ""} | Videoduel`} />
+
       <div>
         {data.user.name && (
           <Header

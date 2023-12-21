@@ -5,6 +5,7 @@ import createSSGHelper from "@/server/helpers/ssg-helper";
 import { api } from "@/utils/api";
 
 import BracketPreview from "@/components/features/bracket-preview/bracket-preview";
+import Meta from "@/components/features/meta/meta";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -19,6 +20,8 @@ export default function BracketPage(props: Props) {
 
   return (
     <>
+      <Meta title={`${bracket.name} | Videoduel`} />
+
       <BracketPreview bracket={bracket} />
     </>
   );

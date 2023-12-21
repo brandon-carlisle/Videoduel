@@ -6,6 +6,7 @@ import { api } from "@/utils/api";
 
 import VoteGame from "@/components/features/game/vote-game";
 import Header from "@/components/features/header/header";
+import Meta from "@/components/features/meta/meta";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -23,6 +24,8 @@ export default function BracketPage(props: Props) {
 
   return (
     <>
+      <Meta title={`${bracket.name} | Videoduel`} />
+
       <Header
         title={bracket.name || "Could not find bracket name..."}
         description={
