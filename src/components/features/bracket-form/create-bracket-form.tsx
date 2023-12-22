@@ -101,8 +101,8 @@ export default function CreateBracketForm() {
                 />
               </FormControl>
               <FormDescription>
-                This is the full url of the public YouTube playlist you want to
-                make a bracket for.
+                This is the <span className="font-bold">full</span> url of the
+                public YouTube playlist you want to make a bracket for.
               </FormDescription>
               <FormMessage />
             </FormItem>
