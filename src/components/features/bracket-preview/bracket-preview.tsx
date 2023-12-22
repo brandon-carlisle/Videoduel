@@ -31,7 +31,7 @@ export default function BracketPreview({ bracket }: Props) {
 
   return (
     <>
-      <div className="grid md:grid-cols-4">
+      <div className="block md:grid md:grid-cols-4">
         <div className="mb-5">
           <Header
             title={bracket.name || "Could not find bracket name..."}
@@ -61,7 +61,7 @@ export default function BracketPreview({ bracket }: Props) {
                   key={video.id}
                   className="border-b-2 border-secondary pb-3 last:border-none"
                 >
-                  <div className="flex gap-2">
+                  <div className="flex flex-col gap-2 md:flex-row">
                     {video.thumbnail && video.title && (
                       <Image
                         src={video.thumbnail}

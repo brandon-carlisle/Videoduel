@@ -21,8 +21,8 @@
 
 - [x] Add title/head/meta on every page
 
-- [ ] Logo responsivess
-- [ ] Menu/nav responsivess
+- [x] Logo responsivess
+- [x] Menu/nav responsivess
 - [ ] Video thumbnails responsivess
 - [ ] increase z-index on selected video
 - [ ] Fix padding on mobile
