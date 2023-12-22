@@ -19,9 +19,10 @@
 
 - [ ] Add "current bracket overview feat"
 
-- [ ] Add title/head/meta on every page
+- [x] Add title/head/meta on every page
 
 - [ ] Logo responsivess
 - [ ] Menu/nav responsivess
 - [ ] Video thumbnails responsivess
 - [ ] increase z-index on selected video
+- [ ] Fix padding on mobile
