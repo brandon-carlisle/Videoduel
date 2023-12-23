@@ -101,7 +101,7 @@ export default function VoteGameNew({ bracket }: Props) {
 
   return (
     <>
-      <div className="mt-20 flex flex-col items-center justify-center gap-6">
+      <div className="mt-10 flex flex-col items-center justify-center gap-6">
         {finalWinner ? (
           <>
             <Confetti />
@@ -123,7 +123,7 @@ export default function VoteGameNew({ bracket }: Props) {
             <p className="text-xl font-semibold">
               {getCurrentRound(matchups.length)}
             </p>
-            <div className="grid grid-cols-1 justify-start gap-3 lg:grid-cols-2">
+            <div className="grid w-full grid-cols-1 justify-center gap-3 md:px-10 lg:grid-cols-2">
               {currentMatchup?.a ? (
                 <VideoSelection
                   handleVote={handleVote}

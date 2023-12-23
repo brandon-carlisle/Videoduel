@@ -1,5 +1,7 @@
 import { type Video } from "@prisma/client";
 
+import { cn } from "@/utils/cn";
+
 import { Button } from "@/components/ui/button";
 
 import { YoutubePlayer } from "./youtube-player";
@@ -21,26 +23,29 @@ export function VideoSelection({
   voteLabel,
   updateAndHandleNextMatchups,
 }: VideoSelectionProps) {
+  const classes = cn(
+    selectedVideo === matchup && zooming ? "zoom-in" : "",
+    "h-full",
+  );
+
   return (
     <div
-      className={selectedVideo === matchup && zooming ? "zoom-in" : ""}
+      className={classes}
       onAnimationEnd={() => {
         updateAndHandleNextMatchups(matchup);
       }}
     >
-      <div className="h-full max-w-[560px]">
-        <div className="flex h-full flex-col gap-3">
-          <YoutubePlayer id={matchup.videoId} />
-          <p className="font-semibold">{matchup.title}</p>
+      <div className="flex h-full flex-col gap-3">
+        <YoutubePlayer id={matchup.videoId} />
+        <p className="font-semibold">{matchup.title}</p>
 
-          <Button
-            onClick={() => handleVote(matchup)}
-            disabled={zooming}
-            className="mt-auto"
-          >
-            Vote {voteLabel}
-          </Button>
-        </div>
+        <Button
+          onClick={() => handleVote(matchup)}
+          disabled={zooming}
+          className="mt-auto"
+        >
+          Vote {voteLabel}
+        </Button>
       </div>
     </div>
   );
