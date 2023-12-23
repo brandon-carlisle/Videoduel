@@ -77,7 +77,7 @@ export default function BracketPreview({ bracket }: Props) {
                       <p>
                         {video.wins
                           ? `${calcWinPercentage(video.wins)}% of votes`
-                          : "0 votes"}
+                          : "0% of votes"}
                       </p>
                     </div>
                   </div>
