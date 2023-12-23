@@ -1,4 +1,4 @@
-# Vote
+# Videoduel
 
 Vote on Youtube videos.
 
