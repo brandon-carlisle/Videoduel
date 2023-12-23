@@ -34,23 +34,25 @@ export default function HomePage() {
         <FeaturedBrackets />
       </section>
 
-      <footer className="fixed bottom-0 left-1/2 flex w-full  -translate-x-1/2 items-center justify-center py-4">
-        <div className="flex">
-          <Button asChild variant={"link"}>
-            <a
-              href="https://github.com/brandon-carlisle/videoduel"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Code
-            </a>
-          </Button>
+      <div className="hidden md:block">
+        <footer className="fixed bottom-0 left-1/2 flex w-full  -translate-x-1/2 items-center justify-center py-4">
+          <div className="flex">
+            <Button asChild variant={"link"}>
+              <a
+                href="https://github.com/brandon-carlisle/videoduel"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Code
+              </a>
+            </Button>
 
-          <Button asChild variant={"link"}>
-            <Link href={"/policy"}>Policy</Link>
-          </Button>
-        </div>
-      </footer>
+            <Button asChild variant={"link"}>
+              <Link href={"/policy"}>Policy</Link>
+            </Button>
+          </div>
+        </footer>
+      </div>
     </>
   );
 }

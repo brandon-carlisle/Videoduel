@@ -1,7 +1,10 @@
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import AuthButton from "../auth-button/auth-button";
@@ -44,6 +47,9 @@ function DesktopNav() {
 }
 
 function MobileNav() {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="block md:hidden">
       <nav className="mb-10 flex w-full items-center justify-between">
@@ -56,15 +62,42 @@ function MobileNav() {
             className="h-8 w-8 rounded"
           />
         </Link>
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger>
             <Menu width={24} height={24} className="border-secondary" />
           </SheetTrigger>
           <SheetContent>
             <div className="flex h-full flex-col items-start justify-between">
-              <div className="flex gap-5">
-                <UserButton />
-                <ThemeToggle />
+              <div>
+                <div className="flex gap-5">
+                  <UserButton />
+                  <ThemeToggle />
+                </div>
+
+                <div className="mt-8 flex flex-col">
+                  <Button asChild variant={"link"} className="m-0 block p-0">
+                    <a
+                      href={"https://github.com/brandon-carlisle/Videoduel"}
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                      target="_blank"
+                    >
+                      Code
+                    </a>
+                  </Button>
+                  <Button asChild variant={"link"} className="m-0 block p-0">
+                    <Link
+                      href={"/policy"}
+                      onClick={() => {
+                        void router.push("/policy");
+                        setOpen(false);
+                      }}
+                    >
+                      Policy
+                    </Link>
+                  </Button>
+                </div>
               </div>
               <div className="mt-auto">
                 <AuthButton />
