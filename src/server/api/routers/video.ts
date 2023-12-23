@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
 export const videoRouter = createTRPCRouter({
-  addWin: protectedProcedure
+  addWin: publicProcedure
     .input(z.object({ id: z.string(), bracketId: z.string() }))
     .mutation(async ({ input, ctx }) => {
       await ctx.prisma.video.update({
