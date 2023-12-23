@@ -3,14 +3,11 @@ import Link from "next/link";
 
 import FeaturedBrackets from "@/components/features/bracket-featured-grid/featured-brackets";
 import Header from "@/components/features/header/header";
-import AnimatedLoaderIcon from "@/components/features/loader-icon/animated-loader-icon";
 import Meta from "@/components/features/meta/meta";
 import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") return <AnimatedLoaderIcon />;
+  const { data: session } = useSession();
 
   return (
     <>
