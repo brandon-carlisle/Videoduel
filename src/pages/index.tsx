@@ -1,13 +1,19 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
+import createSSGHelper from "@/server/helpers/ssg-helper";
+
+import { api } from "@/utils/api";
+
 import FeaturedBrackets from "@/components/features/bracket-featured-grid/featured-brackets";
+// import FeaturedBrackets from "@/components/features/bracket-featured-grid/featured-brackets";
 import Header from "@/components/features/header/header";
 import Meta from "@/components/features/meta/meta";
 import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   const { data: session } = useSession();
+  const { data: brackets } = api.bracket.getFeatured.useQuery();
 
   return (
     <>
@@ -31,7 +37,9 @@ export default function HomePage() {
 
       <section>
         <h2 className="mb-8 text-xl font-semibold">Featured brackets</h2>
-        <FeaturedBrackets />
+        {brackets?.featured ? (
+          <FeaturedBrackets brackets={brackets.featured} />
+        ) : null}
       </section>
 
       <div className="hidden md:block">
@@ -55,4 +63,18 @@ export default function HomePage() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps() {
+  // Move ssg helper into seperate func
+  const helpers = createSSGHelper();
+
+  await helpers.bracket.getFeatured.prefetch();
+
+  return {
+    props: {
+      trpcState: helpers.dehydrate(),
+    },
+    revalidate: 1,
+  };
 }

@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { type Bracket } from "@prisma/client";
+
 import { api } from "@/utils/api";
 
 import { Button } from "@/components/ui/button";
@@ -13,7 +15,17 @@ import {
 
 import AnimatedLoaderIcon from "../loader-icon/animated-loader-icon";
 
-export default function FeaturedBrackets() {
+interface BracketWithUsername extends Bracket {
+  createdBy: {
+    name: string | null;
+  };
+}
+
+interface Props {
+  brackets: BracketWithUsername[];
+}
+
+export default function FeaturedBrackets({ brackets }: Props) {
   const { data, status } = api.bracket.getFeatured.useQuery(undefined, {
     refetchOnWindowFocus: false,
   });
@@ -26,7 +38,7 @@ export default function FeaturedBrackets() {
 
   return (
     <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {data?.featured.map((bracket) => (
+      {brackets.map((bracket) => (
         <div key={bracket.id}>
           <Card>
             <CardHeader>
