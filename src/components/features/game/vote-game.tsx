@@ -45,9 +45,9 @@ export default function VoteGameNew({ bracket }: Props) {
       const updatedMatchups = [...prevState];
 
       updatedMatchups[currentMatchupIndex] = {
-        // @ts-ignore TODO
+        // @ts-ignore
         a: updatedMatchups[currentMatchupIndex]?.a,
-        // @ts-ignore TODO
+        // @ts-ignore
         b: updatedMatchups[currentMatchupIndex]?.b,
         winner: video,
       };
@@ -102,7 +102,9 @@ export default function VoteGameNew({ bracket }: Props) {
   return (
     <>
       <div className="mt-10 flex flex-col items-center justify-center gap-6">
-        <FinalWinnerView finalWinner={finalWinner} bracketId={bracket.id} />
+        {finalWinner && (
+          <FinalWinnerView finalWinner={finalWinner} bracketId={bracket.id} />
+        )}
 
         {!finalWinner && (
           <>
@@ -147,11 +149,9 @@ function FinalWinnerView({
   finalWinner,
   bracketId,
 }: {
-  finalWinner: Video | undefined;
+  finalWinner: Video;
   bracketId: string;
 }) {
-  if (!finalWinner) return null;
-
   return (
     <>
       <Confetti />

@@ -57,7 +57,7 @@ export default function Confetti() {
     <>
       <ReactCanvasConfetti
         refConfetti={getInstance}
-        className="pointer-events-none fixed left-0 top-0 h-full w-full"
+        className="pointer-events-none fixed left-0 top-0 z-[9999] h-full w-full"
       />
     </>
   );

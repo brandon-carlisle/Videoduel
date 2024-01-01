@@ -6,7 +6,6 @@ import createSSGHelper from "@/server/helpers/ssg-helper";
 import { api } from "@/utils/api";
 
 import FeaturedBrackets from "@/components/features/bracket-featured-grid/featured-brackets";
-// import FeaturedBrackets from "@/components/features/bracket-featured-grid/featured-brackets";
 import Header from "@/components/features/header/header";
 import Meta from "@/components/features/meta/meta";
 import { Button } from "@/components/ui/button";
