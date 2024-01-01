@@ -102,23 +102,9 @@ export default function VoteGameNew({ bracket }: Props) {
   return (
     <>
       <div className="mt-10 flex flex-col items-center justify-center gap-6">
-        {finalWinner ? (
-          <>
-            <Confetti />
-            <div className="self-center lg:col-span-2">
-              <p className="mb-3 text-center text-2xl font-semibold">
-                {finalWinner.title} wins 🏆
-              </p>
-              <YoutubePlayer id={finalWinner.videoId} />
+        <FinalWinnerView finalWinner={finalWinner} bracketId={bracket.id} />
 
-              <div className="mt-3 flex items-center justify-center">
-                <Button asChild variant="outline">
-                  <Link href={`/bracket/${bracket.id}`}>View results</Link>
-                </Button>
-              </div>
-            </div>
-          </>
-        ) : (
+        {!finalWinner && (
           <>
             <p className="text-xl font-semibold">
               {getCurrentRound(matchups.length)}
@@ -152,6 +138,34 @@ export default function VoteGameNew({ bracket }: Props) {
             </div>
           </>
         )}
+      </div>
+    </>
+  );
+}
+
+function FinalWinnerView({
+  finalWinner,
+  bracketId,
+}: {
+  finalWinner: Video | undefined;
+  bracketId: string;
+}) {
+  if (!finalWinner) return null;
+
+  return (
+    <>
+      <Confetti />
+      <div className="self-center lg:col-span-2">
+        <p className="mb-3 text-center text-2xl font-semibold">
+          {finalWinner.title} wins 🏆
+        </p>
+        <YoutubePlayer id={finalWinner.videoId} />
+
+        <div className="mt-3 flex items-center justify-center">
+          <Button asChild variant="outline">
+            <Link href={`/bracket/${bracketId}`}>View results</Link>
+          </Button>
+        </div>
       </div>
     </>
   );
