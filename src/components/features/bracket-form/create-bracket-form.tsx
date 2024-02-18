@@ -117,7 +117,7 @@ export default function CreateBracketForm() {
             Loading
           </Button>
         ) : (
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Create bracket</Button>
         )}
       </form>
     </Form>
